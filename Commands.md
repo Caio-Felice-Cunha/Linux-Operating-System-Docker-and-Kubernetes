@@ -21,3 +21,5 @@
 * bash # open shell
 
 * ls -la # view container
+
+# Accessing the Linux Shell and Running the First Commands
