@@ -171,11 +171,31 @@ Now, let's create a folder. After we will copy and move archives into it. Lastly
 
 `rm groceries.txt` to remove/delete files
 
-`rmdir datasets/` to remove/delete folder (the folder must be empty for you to delete it)
+`rmdir datasets/` to remove/delete the folder (the folder must be empty for you to delete it)
 
 `ls -la mydata.txt` is going to show the file metadata
 
+### Privileges and Authorizations
 
+Now we are going to see how privileges and authorizations work.
+
+When you type `ls -la file.extension` In the beginning of each file you will find something like this “-rw-r--r--”. The “rw” are the owner privileges. After, is the owner group privileges. Lastly, is the privilege for anyone else.
+
+`chmod 777 file.extension` to change the visualization for you to understand it better. Now it changed to “-rwxrwxrwx”. R stands for read, W stands for write, and X for execution.
+
+So, what the “-rwxrwxrwx” tells us is that:
+
+- The owner can read, write and execute the file (first 3 letters)
+- The owner group can read, write and execute the file (the 3 letters in the middle)
+- Anyone can read, write and execute the file (last 3 letters)
+
+Now, let’s change these privileges. I want just for the owner and group owner to be able to edit the file.
+
+`chmod 770 mydata.txt` To change mode. The first number (7) refers to the owner's privileges. The second number (7) refers to the group privileges. The third number (0) refers to any other user.
+
+In this case, the number 7 refers to rwx, and 0, to no privileges.
+
+Now the text is “-rwxrwx---”.
 
 
 
