@@ -121,3 +121,42 @@ However, you can also create a secondary group for this user. First, `exit` .
 `usermod -a -G SECONDARYGROUPNAME USERNAME` Here you can see that the `-g` is for creating the primary group, and the `-G` is for the secondary group.
 
 Let’s verify: `su USERNAME` | `id`
+
+# Manipulating Files and Folders in Linux
+
+In the user directory. For example: `cd /home/username`
+`touch mydata.txt` to create a txt archive (archivename.archivetype)
+
+In order to edit this archive, let’s use “vi”
+
+To install, we need to go back to the root (admin power)
+
+`exit`  to go to root
+
+install in Linux Ubuntu
+
+`apt-get update`  to get the most recently mirror updates
+
+`apt-get install vim` to install the ‘vi’ for us to edit the .txt archive
+
+`su username`  to go to users folder
+
+`vi mydata.txt`  to open the text edit
+
+When you open using vi, you can’t do anything. First you need to press the ‘i’ key in your keyboard for you to insert information. 
+
+### ALWAYS PAY ATTENTION IN THE BOTTON
+
+If you notice, the bottom text changes from “archivename.archivetype” OL, OB to  “INSERT”. Now you can type.
+
+After typing, just press the “ESC” key.
+
+`:w` to save -> If you had problems in saving and quitting, like I did, you must insert the exclamation point in the end `:w!`
+
+`:q` or `:q!` to quit
+
+`:wq` or `:wq!` to save and quit
+
+`cat archivename.archivetype`  to see the archive content in the prompt
+
+`cat archivename.archivetype > archivename2.archivetype` to send the archive exists into another, even if the archive does not exists.
