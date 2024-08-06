@@ -21,6 +21,6 @@ In this project, I demonstrate how to create, manage, and manipulate Linux folde
 
 ## Contact
 
-Feel free to reach out if you have any questions or need further assistance. You can contact me at [your.email@example.com].
+Feel free to reach out if you have any questions or need further assistance.
 
 Happy learning!
