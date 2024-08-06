@@ -103,3 +103,21 @@ In the Docker Desktop container shell/command prompt (we will use bash)
         ```
         
     This sequence will place you in the `caio` user's home directory, where they have the necessary permissions to work with files and directories.
+
+# Managing Groups in Linux
+
+Change the user group. Typically used to grant privileges and authorizations.
+
+To do this, we will go back to the root user. To do this, just press `exit` and confirm that you are in root with `id`
+
+`addgroup GROUPNAME` to create a group
+
+`usermod -g GROUPNAME USERNAME` to associate the user with the group
+
+Let’s verify: `su USERNAME` | `cd ~` | `ls -la` now, you should something like this: username usergroup. You can also see with `id` - here you see that the main group is now the one that you changed it to.
+
+However, you can also create a secondary group for this user. First, `exit` .
+
+`usermod -a -G SECONDARYGROUPNAME USERNAME` Here you can see that the `-g` is for creating the primary group, and the `-G` is for the secondary group.
+
+Let’s verify: `su USERNAME` | `id`
