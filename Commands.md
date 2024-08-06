@@ -188,6 +188,7 @@ So, what the “-rwxrwxrwx” tells us is that:
 - The owner can read, write and execute the file (first 3 letters)
 - The owner group can read, write and execute the file (the 3 letters in the middle)
 - Anyone can read, write and execute the file (last 3 letters)
+- The letter “R” has the value of 4. The letter “W” has the value of 2. The letter “X” has the value of 1
 
 Now, let’s change these privileges. I want just for the owner and group owner to be able to edit the file.
 
@@ -197,7 +198,11 @@ In this case, the number 7 refers to rwx, and 0, to no privileges.
 
 Now the text is “-rwxrwx---”.
 
+Now, let’s change owner and owner group of the file.
 
+`chown root:root mydata.txt` To change the owner and the group to the user “root”. The first “root” correspond to the user, and the second “root”, to the group.
+
+`chmod 600 mydata.txt` To change the privileges of the file. Now, only the user owner can read and write. No one can execute, and the group and other users have no privileges.
 
 
 
