@@ -19,13 +19,6 @@ In this project, I demonstrate how to create, manage, and manipulate Linux folde
 
 - Docker installed on your machine.
 
-### Installation
-
-Clone this repository:
-   ```sh
-   git clone https://github.com/yourusername/Linux-Management-With-Docker.git
-   ```
-
 ## Contact
 
 Feel free to reach out if you have any questions or need further assistance. You can contact me at [your.email@example.com].
