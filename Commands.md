@@ -145,7 +145,7 @@ install in Linux Ubuntu
 
 When you open using vi, you can’t do anything. First you need to press the ‘i’ key in your keyboard for you to insert information. 
 
-### ALWAYS PAY ATTENTION IN THE BOTTON
+##### ALWAYS PAY ATTENTION IN THE BOTTON
 
 If you notice, the bottom text changes from “archivename.archivetype” OL, OB to  “INSERT”. Now you can type.
 
@@ -160,3 +160,26 @@ After typing, just press the “ESC” key.
 `cat archivename.archivetype`  to see the archive content in the prompt
 
 `cat archivename.archivetype > archivename2.archivetype` to send the archive exists into another, even if the archive does not exists.
+
+Now, let's create a folder. After we will copy and move archives into it. Lastly, let's delete everything
+
+`mkdir datasets`  to create a folder
+
+`cp mydata.txt datasets/` to copy a file
+
+`mv mydata2.txt datasets/`  to move a file
+
+`rm groceries.txt` to remove/delete files
+
+`rmdir datasets/` to remove/delete folder (the folder must be empty for you to delete it)
+
+`ls -la mydata.txt` is going to show the file metadata
+
+
+
+
+
+
+
+
+
