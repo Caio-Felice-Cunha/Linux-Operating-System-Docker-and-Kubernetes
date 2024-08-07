@@ -4,7 +4,7 @@
 
 This project aims to study the directory structure in Linux, the file systems used in Linux and Docker containers, and how to work with partitions and volumes. Additionally, it covers sharing files between the local machine (host) and the Docker container running Linux.
 
-Are you starting now? Check out this first: [Linux-Management-With-Docker](https://github.com/Caio-Felice-Cunha/Linux-Management-With-Docker).
+Are you starting now? Check out this first: [1-Linux-Management-With-Docker](https://github.com/Caio-Felice-Cunha/Linux-Operating-System-Docker-and-Kubernetes/tree/main/01-Linux-Management-With-Docker).
 
 ## Objectives
 
