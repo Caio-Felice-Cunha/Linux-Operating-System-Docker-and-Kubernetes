@@ -26,4 +26,4 @@ Feel free to reach out if you have any questions or need further assistance.
 Happy learning!
 
 # Want to go to the next step?
-[Linux Docker Filesystem](https://github.com/Caio-Felice-Cunha/linux-docker-filesystem/tree/main)
+[02-Linux Docker Filesystem](https://github.com/Caio-Felice-Cunha/Linux-Operating-System-Docker-and-Kubernetes/tree/main/02-Linux-Docker-Filesystem)
