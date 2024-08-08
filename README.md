@@ -9,7 +9,7 @@ This repository contains all my study materials and lab exercises from the cours
 ### What you will learn
 - [1: Linux Terminal in Docker](https://github.com/Caio-Felice-Cunha/Linux-Operating-System-Docker-and-Kubernetes/tree/main/01-Linux-Management-With-Docker)
 - [2: Directory Structure, File System, Partitions, and Volumes](https://github.com/Caio-Felice-Cunha/Linux-Operating-System-Docker-and-Kubernetes/tree/main/02-Linux-Docker-Filesystem)
-- [3: Networking with Docker and Linux](https://github.com/Caio-Felice-Cunha/Linux-Operating-System-Docker-and-Kubernetes/tree/main/3%20-%20Networking%20with%20Docker%20and%20Linux)
+- [3: Networking with Docker and Linux](https://github.com/Caio-Felice-Cunha/Linux-Operating-System-Docker-and-Kubernetes/tree/main/03%20-%20Networking%20with%20Docker%20and%20Linux)
 - [4: Automating Tasks with Bash Script]()
 - [5: Python Application Deployment with Linux and Docker]()
 - [6: Container Deployment with Docker Compose]()
