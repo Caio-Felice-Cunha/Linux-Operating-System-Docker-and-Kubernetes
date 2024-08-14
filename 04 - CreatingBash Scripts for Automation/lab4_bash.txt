@@ -1,0 +1,11 @@
+# Bash Scripting
+
+# Create a Docker container mapping a local folder with the Bash scripts
+# CHANGE THE FOLDER TO THE APPROPRIATE LOCATION ON YOUR COMPUTER!!!
+docker run -dt --name Lab4 -v /Users/dmpm/Dropbox/DSA/LinuxDocker/Lab4:/mnt/dsacademy ubuntu
+
+# Run the docker container with bash terminal on the command line
+docker exec -t -i Lab4 /bin/bash
+
+# Run the scripts as shown in the lessons.
+
