@@ -56,3 +56,10 @@ You can create a file (let's call it `create_and_enter.sh`) with the following c
 - **Bash scripts** allow you to automate tasks by grouping commands in a file that can be executed all at once.
 
 Bash is incredibly powerful, and as you become more familiar with it, you'll be able to use it to perform a wide variety of tasks more efficiently!
+
+# Books
+* GNU Bash manual https://www.gnu.org/software/bash/manual/ ;
+* Advanced Bash-Scripting Guide https://tldp.org/LDP/abs/html/ ;
+* The Linux Command Line http://linuxcommand.org/tlcl.php ;
+* The GNU Awk User’s Guide https://www.gnu.org/software/gawk/manual/gawk.html .
+
