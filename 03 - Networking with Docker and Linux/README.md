@@ -50,7 +50,7 @@ By following these steps, the container will be moved to the specified network w
 - [1: Linux Terminal in Docker](https://github.com/Caio-Felice-Cunha/Linux-Operating-System-Docker-and-Kubernetes/tree/main/01-Linux-Management-With-Docker)
 - [2: Directory Structure, File System, Partitions, and Volumes](https://github.com/Caio-Felice-Cunha/Linux-Operating-System-Docker-and-Kubernetes/tree/main/02-Linux-Docker-Filesystem)
 - You are here! [3: Networking with Docker and Linux](https://github.com/Caio-Felice-Cunha/Linux-Operating-System-Docker-and-Kubernetes/tree/main/03%20-%20Networking%20with%20Docker%20and%20Linux)
-- [4: Automating Tasks with Bash Script](https://github.com/Caio-Felice-Cunha/Linux-Operating-System-Docker-and-Kubernetes/tree/main/CreatingBash-Scripts-for-Automation)
+- [4: Automating Tasks with Bash Script](https://github.com/Caio-Felice-Cunha/Linux-Operating-System-Docker-and-Kubernetes/tree/main/04%20-%20CreatingBash%20Scripts%20for%20Automation)
 - [5: Python Application Deployment with Linux and Docker]()
 - [6: Container Deployment with Docker Compose]()
 - [7: Container Orchestration with Docker]()
