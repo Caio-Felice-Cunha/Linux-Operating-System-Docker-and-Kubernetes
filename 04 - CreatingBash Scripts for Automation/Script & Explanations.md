@@ -63,3 +63,19 @@ Bash is incredibly powerful, and as you become more familiar with it, you'll be 
 * The Linux Command Line http://linuxcommand.org/tlcl.php ;
 * The GNU Awk User’s Guide https://www.gnu.org/software/gawk/manual/gawk.html .
 
+# Let's Go
+Download the archives that in the [Scripts Folder](https://github.com/Caio-Felice-Cunha/Linux-Operating-System-Docker-and-Kubernetes/tree/main/04%20-%20CreatingBash%20Scripts%20for%20Automation/Scripts)
+
+## Bash Scripting
+
+Create a Docker container mapping a local folder with the Bash scripts
+
+CHANGE THE FOLDER TO THE APPROPRIATE LOCATION ON YOUR COMPUTER!!!
+
+`docker run -dt --name Lab4 -v YOUR/FILES/PATH/WITH/THE/DOWNLOADS ubuntu`
+
+Run the docker container with bash terminal on the command line
+
+`docker exec -t -i Lab4 /bin/bash`
+
+
