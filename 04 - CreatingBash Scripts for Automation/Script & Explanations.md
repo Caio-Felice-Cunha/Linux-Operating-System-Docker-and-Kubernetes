@@ -70,9 +70,9 @@ Download the archives that in the [Scripts Folder](https://github.com/Caio-Felic
 
 Create a Docker container mapping a local folder with the Bash scripts
 
-CHANGE THE FOLDER TO THE APPROPRIATE LOCATION ON YOUR COMPUTER!!!
+Do not forget to change the folder to the appropriate location on your computer and the destination in the Docker container:
 
-`docker run -dt --name Lab4 -v YOUR/FILES/PATH/WITH/THE/DOWNLOADS ubuntu`
+`docker run -dt --name Lab4 -v YOUR/FILES/PATH/WITH/THE/DOWNLOADS:DESCTINATION/FOLDER/DOCKER ubuntu`
 
 Run the docker container with bash terminal on the command line
 
