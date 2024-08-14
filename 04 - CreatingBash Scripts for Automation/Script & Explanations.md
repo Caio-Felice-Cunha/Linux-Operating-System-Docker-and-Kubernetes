@@ -64,7 +64,7 @@ Bash is incredibly powerful, and as you become more familiar with it, you'll be 
 * The GNU Awk User’s Guide https://www.gnu.org/software/gawk/manual/gawk.html .
 
 # Let's Go
-Download the archives that in the [Scripts Folder](https://github.com/Caio-Felice-Cunha/Linux-Operating-System-Docker-and-Kubernetes/tree/main/04%20-%20CreatingBash%20Scripts%20for%20Automation/Scripts)
+Download the archives in the [Scripts Folder](https://github.com/Caio-Felice-Cunha/Linux-Operating-System-Docker-and-Kubernetes/tree/main/04%20-%20CreatingBash%20Scripts%20for%20Automation/Scripts)
 
 ## Bash Scripting
 
@@ -72,10 +72,26 @@ Create a Docker container mapping a local folder with the Bash scripts
 
 Do not forget to change the folder to the appropriate location on your computer and the destination in the Docker container:
 
-`docker run -dt --name Lab4 -v YOUR/FILES/PATH/WITH/THE/DOWNLOADS:DESCTINATION/FOLDER/DOCKER ubuntu`
+`docker run -dt --name Lab4 -v YOUR/FILES/PATH/WITH/THE/DOWNLOADS:/DESTINATION/FOLDER/DOCKER ubuntu`
 
 Run the docker container with bash terminal on the command line
 
 `docker exec -t -i Lab4 /bin/bash`
+
+Now, let's see if is everything ok:
+
+`hostname`
+
+`id`
+
+`df -h` -> Here you should see the folder you create in the "/DESTINATION/FOLDER/DOCKER". Mine is "/mnt/dsacademy"
+
+`cd /mnt/dsacademy`
+
+`ls` to see all the archives
+
+![image](https://github.com/user-attachments/assets/27402fa0-7182-4828-b41a-a021f58356a4)
+
+
 
 
