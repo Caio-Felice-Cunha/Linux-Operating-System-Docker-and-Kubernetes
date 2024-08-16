@@ -694,3 +694,162 @@ done
 
 ![image](https://github.com/user-attachments/assets/458880c8-8991-4426-b28a-751d4a7ad9cc)
 
+### Script 08 → Full Operational System (OS) Checkup
+
+```bash
+#!/bin/bash
+# ==============================
+# Data Science Academy
+# Script: script8.sh
+# ==============================
+# Script to show current system status
+# Colors in Bash: https://tldp.org/HOWTO/Bash-Prompt-HOWTO/x329.html
+clear
+echo ""
+echo -e "\e[31;43m***** Hostname *****\e[0m"
+hostname
+echo ""
+echo -e "\e[31;43m***** Platform (32 or 64 Bits) *****\e[0m"
+uname -i
+echo ""
+echo -e "\e[31;43m***** Linux Version *****\e[0m"
+cat /etc/os-release | grep -e PRETTY_NAME -e VERSION=
+echo ""
+echo -e "\e[31;43m***** Disk Space Used *****\e[0m"
+df -H | grep -vE '^tmpfs|cdrom'
+echo ""
+echo -e "\e[31;43m ***** RAM Usage *****\e[0m"
+free
+echo ""
+echo -e "\e[31;43m***** System Uptime and Load *****\e[0m"
+uptime
+echo ""
+echo -e "\e[31;43m***** Top 5 Processes by Memory Usage *****\e[0m"
+ps -eo %mem,%cpu,comm --sort=-%mem | head -n 6
+echo ""
+```
+
+This Bash script, named `script8.sh`, is designed to display the current status of a Linux system. Below is a detailed explanation of each part of the script:
+
+##### 1. Shebang Line
+
+```bash
+#!/bin/bash
+```
+
+- **Purpose:** This line indicates that the script should be executed using the Bash shell. It ensures that the script runs in the Bash environment.
+
+##### 2. Script Metadata
+
+```bash
+# ==============================
+# Data Science Academy
+# Script: script8.sh
+# ==============================
+```
+
+- **Purpose:** These lines are comments that provide information about the script, such as the name (`script8.sh`) and its origin (Data Science Academy). Comments in Bash begin with `#` and are ignored during execution.
+
+##### 3. Clear the Terminal Screen
+
+```bash
+clear
+```
+
+- **Purpose:** This command clears the terminal screen, removing any previous output, so the results of the script are displayed clearly.
+
+##### 4. Displaying Section Headers with Colors
+
+```bash
+echo -e "\\e[31;43m***** Hostname *****\\e[0m"
+```
+
+- **Purpose:** This line prints the header "***** Hostname *****" with specific colors.
+    - `e`: Enables the interpretation of backslash escapes in the `echo` command.
+    - `\\e[31;43m`: Sets the text color to red (31) and the background color to yellow (43).
+    - `\\e[0m`: Resets the text and background colors to their default values after printing the header.
+
+##### 5. Displaying the Hostname
+
+```bash
+hostname
+```
+
+- **Purpose:** This command displays the hostname of the system, which is the name assigned to the computer on a network.
+
+##### 6. Displaying the Platform (32 or 64 Bits)
+
+```bash
+echo -e "\\e[31;43m***** Platform (32 or 64 Bits) *****\\e[0m"
+uname -i
+```
+
+- **Purpose:** The `uname -i` command prints the hardware platform (e.g., whether the system is running on a 32-bit or 64-bit architecture).
+
+##### 7. Displaying the Linux Version
+
+```bash
+echo -e "\\e[31;43m***** Linux Version *****\\e[0m"
+cat /etc/os-release | grep -e PRETTY_NAME -e VERSION=
+```
+
+- **Purpose:** This command displays the Linux distribution's version information.
+    - `cat /etc/os-release`: Prints the content of the `/etc/os-release` file, which contains operating system identification data.
+    - `grep -e PRETTY_NAME -e VERSION=`: Filters the output to only show the lines containing `PRETTY_NAME` (the full name of the distribution) and `VERSION=` (the version of the distribution).
+
+##### 8. Displaying Disk Space Usage
+
+```bash
+echo -e "\\e[31;43m***** Disk Space Used *****\\e[0m"
+df -H | grep -vE '^tmpfs|cdrom'
+```
+
+- **Purpose:** This command displays information about the disk space usage on the system.
+    - `df -H`: The `df` command shows disk space usage, with the `H` option displaying the sizes in human-readable format (e.g., GB, MB).
+    - `grep -vE '^tmpfs|cdrom'`: Filters out lines containing `tmpfs` or `cdrom`, which are typically not relevant for general disk usage.
+
+##### 9. Displaying RAM Usage
+
+```bash
+echo -e "\\e[31;43m ***** RAM Usage *****\\e[0m"
+free
+```
+
+- **Purpose:** The `free` command displays the system's memory usage, including total, used, and available RAM.
+
+##### 10. Displaying System Uptime and Load
+
+```bash
+echo -e "\\e[31;43m***** System Uptime and Load *****\\e[0m"
+uptime
+```
+
+- **Purpose:** The `uptime` command shows how long the system has been running, along with the system load averages for the last 1, 5, and 15 minutes.
+
+##### 11. Displaying the Top 5 Processes by Memory Usage
+
+```bash
+echo -e "\\e[31;43m***** Top 5 Processes by Memory Usage *****\\e[0m"
+ps -eo %mem,%cpu,comm --sort=-%mem | head -n 6
+```
+
+- **Purpose:** This command lists the top 5 processes consuming the most memory.
+    - `ps -eo %mem,%cpu,comm`: Displays the memory usage (`%mem`), CPU usage (`%cpu`), and command name (`comm`) for each running process.
+    - `-sort=-%mem`: Sorts the processes in descending order based on memory usage.
+    - `head -n 6`: Limits the output to the top 6 lines. The first line is the header, so this effectively shows the top 5 processes by memory usage.
+
+##### 12. Ending the Script
+
+```bash
+echo ""
+```
+
+- **Purpose:** This final `echo` command simply adds a blank line for neatness, ensuring the terminal prompt appears on a new line after the script finishes running.
+
+##### Summary
+
+This script provides a quick overview of the system’s status, including hostname, platform, Linux version, disk space usage, RAM usage, system uptime, and the top 5 memory-consuming processes. The use of colored headers improves readability, making it easy to identify each section of the output.
+
+![image](https://github.com/user-attachments/assets/ab50a16e-36a8-4ad4-8214-ed050d4fa95f)
+
+
