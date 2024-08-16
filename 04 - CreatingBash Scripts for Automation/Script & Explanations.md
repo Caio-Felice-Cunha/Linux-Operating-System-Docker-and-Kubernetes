@@ -566,4 +566,131 @@ This process is useful for creating regular backups of data with unique filename
 
 ![image](https://github.com/user-attachments/assets/435f0afa-606b-4a59-9758-1bb90675e2d6)
 
+### Script 07 → Docker disk space usage report on computer
+
+```bash
+#!/bin/bash
+# ==============================
+# Data Science Academy
+# Script: script7.sh
+# ==============================
+clear
+echo "Disk Space Usage Report on machine: $HOSTNAME"
+echo ""
+echo "All mount points:"
+echo ""
+df -TH
+echo ""
+echo "Checking these mount points:"
+echo ""
+df -H | grep -vE '^Filesystem|tmpfs|cdrom'
+echo ""
+echo "Simplifying the data:"
+echo ""
+df -H | grep -vE '^Filesystem|tmpfs|cdrom' | awk '{ print $5 " " $1 }'
+echo ""
+echo "Loop through the found items to check the available space:"
+echo ""
+
+# Loop
+df -H | grep -vE '^Filesystem|tmpfs|cdrom' | awk '{ print $5 " " $1 }' | while read output;
+do
+echo $output
+space_used=$(echo $output | awk '{ print $1}' | cut -d'%' -f1 )
+partition=$(echo $output | awk '{ print $2 }' )
+if [ $space_used -ge 80 ]; then
+echo "Running out of space on disk \"$partition ($space_used%)\" on $(hostname) as on $(date)"
+fi
+done
+```
+
+This script, `script7.sh`, is designed to generate a disk space usage report on a Linux system. It provides a detailed view of the available disk space on the system's mounted file systems and alerts if any partition's usage exceeds a certain threshold (80% in this case). Here's a breakdown of what each part of the script does:
+
+##### 1. **Script Header:**
+
+```bash
+#!/bin/bash
+# ==============================
+# Data Science Academy
+# Script: script7.sh
+# ==============================
+
+```
+
+- The `#!/bin/bash` shebang specifies that the script should be run using the Bash shell.
+- The comments provide metadata about the script, such as its purpose or origin.
+
+##### 2. **Clear Screen and Initial Echo Statements:**
+
+```bash
+clear
+echo "Disk Space Usage Report on machine: $HOSTNAME"
+echo ""
+echo "All mount points:"
+echo ""
+df -TH
+
+```
+
+- `clear` clears the terminal screen before running the script.
+- `echo "Disk Space Usage Report on machine: $HOSTNAME"` prints a message showing the disk space usage report for the machine, where `$HOSTNAME` is a system variable representing the name of the machine.
+- `df -TH` displays the disk space usage in a human-readable format with all mount points listed. The `T` option shows the file system type, and `H` uses powers of 1000 for the size units (e.g., MB, GB).
+
+##### 3. **Filter Relevant Mount Points:**
+
+```bash
+echo ""
+echo "Checking these mount points:"
+echo ""
+df -H | grep -vE '^Filesystem|tmpfs|cdrom'
+
+```
+
+- This section filters the output of `df -H` to exclude lines related to file systems that are not of interest, such as those labeled `Filesystem`, `tmpfs` (temporary filesystems), and `cdrom`.
+- `grep -vE '^Filesystem|tmpfs|cdrom'` uses regular expressions to exclude lines that match these patterns.
+
+##### 4. **Simplify the Data:**
+
+```bash
+echo ""
+echo "Simplifying the data:"
+echo ""
+df -H | grep -vE '^Filesystem|tmpfs|cdrom' | awk '{ print $5 " " $1 }'
+
+```
+
+- This step further processes the filtered output to only display the percentage of used space (`$5`) and the corresponding file system name (`$1`).
+- `awk '{ print $5 " " $1 }'` extracts and prints the fifth and first columns of the output from the previous command.
+
+##### 5. **Loop Through Items and Check Space:**
+
+```bash
+echo ""
+echo "Loop through the found items to check the available space:"
+echo ""
+df -H | grep -vE '^Filesystem|tmpfs|cdrom' | awk '{ print $5 " " $1 }' | while read output;
+do
+echo $output
+space_used=$(echo $output | awk '{ print $1}' | cut -d'%' -f1 )
+partition=$(echo $output | awk '{ print $2 }' )
+if [ $space_used -ge 80 ]; then
+echo "Running out of space on disk \\"$partition ($space_used%)\\" on $(hostname) as on $(date)"
+fi
+done
+
+```
+
+- This section loops through each line of the simplified output.
+- `while read output; do` starts a loop that processes each line.
+- Inside the loop:
+    - `space_used=$(echo $output | awk '{ print $1}' | cut -d'%' -f1 )` extracts the numerical value of the used space percentage by using `awk` to grab the first field and `cut -d'%' -f1` to remove the '%' symbol.
+    - `partition=$(echo $output | awk '{ print $2 }' )` extracts the partition name (the second field).
+- The `if` statement checks if the `space_used` value is greater than or equal to 80%.
+- If the condition is met, it prints a warning message indicating that the partition is running out of space, including the partition name, usage percentage, the hostname, and the current date.
+
+##### **Summary:**
+
+- The script generates a disk usage report, filters out irrelevant mount points, simplifies the data to show only the used space percentage and partition name, and checks if any partition is above the 80% usage threshold. If so, it provides a warning message. This script can be useful for system administrators to monitor disk space usage and prevent partitions from becoming full.
+
+![image](https://github.com/user-attachments/assets/458880c8-8991-4426-b28a-751d4a7ad9cc)
 
