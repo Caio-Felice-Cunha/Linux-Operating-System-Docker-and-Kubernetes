@@ -30,3 +30,17 @@ Contributions are welcome! Feel free to open issues or pull requests for improve
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
+
+# This Series Update
+- [1: Linux Terminal in Docker](https://github.com/Caio-Felice-Cunha/Linux-Operating-System-Docker-and-Kubernetes/tree/main/01-Linux-Management-With-Docker)
+- You are here! [2: Directory Structure, File System, Partitions, and Volumes](https://github.com/Caio-Felice-Cunha/Linux-Operating-System-Docker-and-Kubernetes/tree/main/02-Linux-Docker-Filesystem)
+- [3: Networking with Docker and Linux](https://github.com/Caio-Felice-Cunha/Linux-Operating-System-Docker-and-Kubernetes/tree/main/03%20-%20Networking%20with%20Docker%20and%20Linux)
+- [4: Automating Tasks with Bash Script]()
+- [5: Python Application Deployment with Linux and Docker]()
+- [6: Container Deployment with Docker Compose]()
+- [7: Container Orchestration with Docker]()
+- [8: Container Orchestration with Kubernetes]()
+- [9: Guide for Orchestrating a Machine Learning App]()
+- [10: Guide for Orchestrating a Data Engineering Pipeline]()
+- [11: Firewall, Access Rules, and SSH Configuration]()
+- [12: Service Management]()
