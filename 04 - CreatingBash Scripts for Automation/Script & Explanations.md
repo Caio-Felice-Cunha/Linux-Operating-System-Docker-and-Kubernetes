@@ -853,3 +853,340 @@ This script provides a quick overview of the system’s status, including hostna
 ![image](https://github.com/user-attachments/assets/ab50a16e-36a8-4ad4-8214-ed050d4fa95f)
 
 
+### Script 09 → Linux Security Auditing
+
+TWO MAIN THINGS BEFORE RUNNING THIS SCRIPT
+
+First, you must install net-tools
+
+```bash
+apt-get install net-tools
+```
+
+Second, the script result is too long. Because of that, if you want to see everything, you must run the script and redirect the result to a file.
+
+```bash
+bash script_dsa_09.sh > audit.txt
+```
+
+About the file: some colors or commands will seem odd or will not even work, because we are changing from the prompt to a file. However, the main analysis and topics should work just fine.
+
+```bash
+#!/bin/bash
+# ==============================
+# Data Science Academy
+# Script: script9.sh
+# ==============================
+# Auditoria de Segurança
+
+# Warning: Run the command below in bash before running this script:
+
+# apt install net-tools
+
+clear
+echo "###############################################"
+echo "###############################################"
+echo "Linux Security Audit Report."
+echo "###############################################"
+echo "###############################################"
+echo "Let's start the audit in 3 seconds..."
+sleep 3
+echo
+echo "This is the name of the machine: $HOSTNAME"
+echo
+echo "Starting the audit..."
+START=$(date +%s)
+echo
+echo -e "\e[0;33m1. Linux Kernel Details\e[0m"
+uname -a
+echo
+echo -e "\e[0;33m2. Version of this Linux Distribution\e[0m"
+cat /etc/os-release | grep -e VERSION=
+echo
+echo -e "\e[0;33m3. Searching for files with permission 777\e[0m"
+find / -type f -perm 0777;
+echo
+echo -e "\e[0;33m4. Active Connections and Open Ports\e[0m"
+netstat -natp
+echo
+echo -e "\e[0;33m5. History of Executed Commands\e[0m"
+history
+echo
+echo -e "\e[0;33m6. Network Interfaces\e[0m"
+ifconfig -a
+echo
+echo -e "\e[0;33m7. List of all installed packages\e[0m"
+apt-cache pkgnames
+echo
+echo -e "\e[0;33m8. Network Parameters\e[0m"
+cat /etc/sysctl.conf
+echo
+echo -e "\e[0;33m9. Password Policies\e[0m"
+cat /etc/pam.d/common-password
+echo
+echo -e "\e[0;33m10. Source List\e[0m"
+cat /etc/apt/sources.list
+echo
+echo -e "\e[0;33m11. Checking for Broken Dependencies\e[0m"
+apt-get check
+echo
+echo -e "\e[0;33m12. Listing packages that can be upgraded\e[0m"
+apt list --upgradeable
+echo
+echo -e "\e[0;33m13. Users with access to the OS\e[0m"
+cut -d: -f1 /etc/passwd
+echo
+echo -e "\e[0;33m14. Checking Null Passwords\e[0m"
+users="$(cut -d: -f 1 /etc/passwd)"
+for x in $users
+do
+passwd -S $x |grep "NP"
+done
+echo
+echo -e "\e[0;33m15. CPU and System Information\e[0m"
+cat /proc/cpuinfo
+echo
+END=$(date +%s)
+DIFF=$(( $END - $START ))
+echo Audit completed in $DIFF seconds!
+echo
+echo Report generation date:
+date
+echo
+echo Congratulations on learning Linux here at Data Science Academy!
+echo
+```
+
+This script, named `script9.sh`, is a Bash script designed to perform a basic security audit on a Linux system. Below is a detailed breakdown of each section of the script:
+
+##### 1. **Shebang and Script Information**
+
+```bash
+#!/bin/bash
+# ==============================
+# Data Science Academy
+# Script: script9.sh
+# ==============================
+# Auditoria de Segurança
+
+```
+
+- `#!/bin/bash`: This line tells the system to use the Bash shell to execute the script.
+- The comments provide information about the script, including its purpose (a security audit) and the organization that created it (Data Science Academy).
+
+##### 2. **Prerequisite Installation**
+
+```bash
+# Warning: Run the command below in bash before running this script:
+# apt install net-tools
+
+```
+
+- The script requires the `net-tools` package, which provides network-related tools such as `netstat`. The user is advised to install this package before running the script.
+
+##### 3. **Clear Screen and Display Headers**
+
+```bash
+clear
+echo "###############################################"
+echo "###############################################"
+echo "Linux Security Audit Report."
+echo "###############################################"
+echo "###############################################"
+echo "Let's start the audit in 3 seconds..."
+sleep 3
+
+```
+
+- `clear`: Clears the terminal screen.
+- Several `echo` commands are used to display a header and some information about the script. The `sleep 3` command pauses the execution for 3 seconds.
+
+##### 4. **Display Machine Name**
+
+```bash
+echo
+echo "This is the name of the machine: $HOSTNAME"
+
+```
+
+- This section prints the name of the machine, using the environment variable `$HOSTNAME`.
+
+##### 5. **Start the Audit and Record Start Time**
+
+```bash
+echo
+echo "Starting the audit..."
+START=$(date +%s)
+
+```
+
+- The script records the start time of the audit using the `date` command, storing it in the `START` variable.
+
+##### 6. **Audit Tasks**
+
+Each section of the audit is formatted with a title and then executes a specific command.
+
+- **6.1. Linux Kernel Details**
+    
+    ```bash
+    echo -e "\\e[0;33m1. Linux Kernel Details\\e[0m"
+    uname -a
+    
+    ```
+    
+    - `uname -a`: Displays detailed information about the Linux kernel.
+- **6.2. Linux Distribution Version**
+    
+    ```bash
+    echo -e "\\e[0;33m2. Version of this Linux Distribution\\e[0m"
+    cat /etc/os-release | grep -e VERSION=
+    
+    ```
+    
+    - `cat /etc/os-release | grep -e VERSION=`: Prints the version information of the Linux distribution.
+- **6.3. Files with Permission 777**
+    
+    ```bash
+    echo -e "\\e[0;33m3. Searching for files with permission 777\\e[0m"
+    find / -type f -perm 0777;
+    
+    ```
+    
+    - `find / -type f -perm 0777`: Searches for files with permissions set to `777` (read, write, and execute for everyone).
+- **6.4. Active Connections and Open Ports**
+    
+    ```bash
+    echo -e "\\e[0;33m4. Active Connections and Open Ports\\e[0m"
+    netstat -natp
+    
+    ```
+    
+    - `netstat -natp`: Displays active network connections and open ports.
+- **6.5. History of Executed Commands**
+    
+    ```bash
+    echo -e "\\e[0;33m5. History of Executed Commands\\e[0m"
+    history
+    
+    ```
+    
+    - `history`: Shows the history of commands executed in the shell.
+- **6.6. Network Interfaces**
+    
+    ```bash
+    echo -e "\\e[0;33m6. Network Interfaces\\e[0m"
+    ifconfig -a
+    
+    ```
+    
+    - `ifconfig -a`: Lists all network interfaces and their configurations.
+- **6.7. List of Installed Packages**
+    
+    ```bash
+    echo -e "\\e[0;33m7. List of all installed packages\\e[0m"
+    apt-cache pkgnames
+    
+    ```
+    
+    - `apt-cache pkgnames`: Lists all installed packages.
+- **6.8. Network Parameters**
+    
+    ```bash
+    echo -e "\\e[0;33m8. Network Parameters\\e[0m"
+    cat /etc/sysctl.conf
+    
+    ```
+    
+    - `cat /etc/sysctl.conf`: Displays the network parameters configuration file.
+- **6.9. Password Policies**
+    
+    ```bash
+    echo -e "\\e[0;33m9. Password Policies\\e[0m"
+    cat /etc/pam.d/common-password
+    
+    ```
+    
+    - `cat /etc/pam.d/common-password`: Displays the password policy configuration.
+- **6.10. Source List**
+    
+    ```bash
+    echo -e "\\e[0;33m10. Source List\\e[0m"
+    cat /etc/apt/sources.list
+    
+    ```
+    
+    - `cat /etc/apt/sources.list`: Displays the list of APT repositories.
+- **6.11. Check for Broken Dependencies**
+    
+    ```bash
+    echo -e "\\e[0;33m11. Checking for Broken Dependencies\\e[0m"
+    apt-get check
+    
+    ```
+    
+    - `apt-get check`: Checks the system for broken package dependencies.
+- **6.12. List Upgradable Packages**
+    
+    ```bash
+    echo -e "\\e[0;33m12. Listing packages that can be upgraded\\e[0m"
+    apt list --upgradeable
+    
+    ```
+    
+    - `apt list --upgradeable`: Lists packages that can be upgraded.
+- **6.13. Users with Access to the OS**
+    
+    ```bash
+    echo -e "\\e[0;33m13. Users with access to the OS\\e[0m"
+    cut -d: -f1 /etc/passwd
+    
+    ```
+    
+    - `cut -d: -f1 /etc/passwd`: Lists all users on the system.
+- **6.14. Check for Null Passwords**
+    
+    ```bash
+    echo -e "\\e[0;33m14. Checking Null Passwords\\e[0m"
+    users="$(cut -d: -f 1 /etc/passwd)"
+    for x in $users
+    do
+    passwd -S $x |grep "NP"
+    done
+    
+    ```
+    
+    - This checks for users with null passwords. `passwd -S $x` returns the password status for each user, and `grep "NP"` searches for "No Password" (null passwords).
+- **6.15. CPU and System Information**
+    
+    ```bash
+    echo -e "\\e[0;33m15. CPU and System Information\\e[0m"
+    cat /proc/cpuinfo
+    
+    ```
+    
+    - `cat /proc/cpuinfo`: Displays information about the CPU.
+
+##### 7. **End of the Audit and Report Generation**
+
+```bash
+END=$(date +%s)
+DIFF=$(( $END - $START ))
+echo Audit completed in $DIFF seconds!
+echo
+echo Report generation date:
+date
+echo
+echo Congratulations on learning Linux here at Data Science Academy!
+
+```
+
+- The script records the end time, calculates the duration of the audit, and prints it.
+- The `date` command outputs the current date and time.
+- Finally, a congratulatory message is displayed.
+
+##### Summary
+
+This script performs a comprehensive security audit on a Linux system by gathering various pieces of information related to system security, user access, network settings, and package management. The audit is intended to provide a quick overview of the system's security posture.
+
+
+![image](https://github.com/user-attachments/assets/0789df39-889f-47ad-a16d-bf274d4345a9)
