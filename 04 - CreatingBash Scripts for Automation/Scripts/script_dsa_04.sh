@@ -9,6 +9,6 @@ COUNT=0
 
 # Loop 
 for INDEX in ${SERVERLIST[@]}; do 
-echo "Server: ${SERVERLIST[COUNT]}" 
-COUNT="`expr $COUNT + 1`" 
+ echo "Server: ${SERVERLIST[COUNT]}" 
+ COUNT="`expr $COUNT + 1`" 
 done

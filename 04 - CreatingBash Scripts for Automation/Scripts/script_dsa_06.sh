@@ -9,7 +9,7 @@
 current_time=$(date +"%H%M%S")
 
 # Create a backup of the folder using the current date in the file name
-tar -czf dados_$horario_corrente.tar.gz /root/dados/ml-latest-small
+tar -czf data_$current_time.tar.gz /root/data/ml-latest-small
 
 # Move the file to another folder
-mv dados_$horario_corrente.tar.gz /tmp
+mv data_$current_time.tar.gz /tmp

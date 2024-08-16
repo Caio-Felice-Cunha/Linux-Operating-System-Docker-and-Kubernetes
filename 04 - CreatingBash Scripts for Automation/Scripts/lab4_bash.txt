@@ -8,4 +8,3 @@ docker run -dt --name Lab4 -v /Users/dmpm/Dropbox/DSA/LinuxDocker/Lab4:/mnt/dsac
 docker exec -t -i Lab4 /bin/bash
 
 # Run the scripts as shown in the lessons.
-
