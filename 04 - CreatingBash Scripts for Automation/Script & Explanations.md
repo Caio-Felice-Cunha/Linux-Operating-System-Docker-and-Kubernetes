@@ -1190,3 +1190,104 @@ This script performs a comprehensive security audit on a Linux system by gatheri
 
 
 ![image](https://github.com/user-attachments/assets/0789df39-889f-47ad-a16d-bf274d4345a9)
+
+### Script 10 → Backup with file versioning
+
+This versioning is based on the file name. If you want to do it only with respect to the file content, I recommend Git.
+
+Before we run the script, first, create a backup folder in the tmp folder.
+
+```bash
+cd /tmp
+```
+
+```bash
+mkdir Backup
+```
+
+
+![image](https://github.com/user-attachments/assets/e398730f-4dfb-4002-b640-aba4901a1712)
+
+Now, let’s go back to the dsacademy folder
+
+```bash
+cd /mnt/dsacademy
+```
+
+This Bash script is designed to create a backup of scripts located in the `/mnt/dsacademy` directory, saving them to the `/tmp/Backup` directory with versioning. Let's break down the script step by step:
+
+##### 1. **Shebang Line**
+   ```bash
+   #!/bin/bash
+   ```
+   - This indicates that the script should be run using the Bash shell.
+
+##### 2. **Comments**
+   ```bash
+   # ==============================
+   # Data Science Academy
+   # Script: script10.sh
+   # ==============================
+   # Backup of scripts (with versioning)
+   ```
+   - These comments provide information about the script, including the name, purpose, and the organization (Data Science Academy) it belongs to.
+
+##### 3. **Source and Destination Directories**
+   ```bash
+   # Source
+   path_src=/mnt/dsacademy
+
+   # Destination
+   # mkdir /tmp/Backup
+   path_dst=/tmp/Backup
+   ```
+   - `path_src` is the directory where the original scripts are located.
+   - `path_dst` is the destination directory where the backups will be stored.
+   - The `mkdir /tmp/Backup` line is commented out, which suggests that the destination directory is assumed to already exist.
+
+##### 4. **Informative Message**
+   ```bash
+   echo
+   echo -e "\e[0;33mStarting to Backup Lab 4 Scripts.\e[0m"
+   ```
+   - The script prints a message to inform the user that the backup process is starting.
+   - The `echo -e` command with the escape sequence `\e[0;33m` changes the text color to yellow (ANSI escape code) for emphasis, followed by `\e[0m` to reset the color.
+
+##### 5. **Loop Through Source Files**
+   ```bash
+   for file_src in $path_src/*; do
+
+     cp -a -- "$file_src" "$path_dst/${file_src##*/}-$(date +"%d-%m-%y-%r")"
+
+   done
+   ```
+   - This `for` loop iterates over each file in the source directory (`$path_src`).
+   - `file_src` represents each file path in the source directory.
+   - The `cp -a --` command copies each file from the source directory to the destination directory.
+   - `${file_src##*/}` extracts the filename from the full path.
+   - The `$(date +"%d-%m-%y-%r")` command appends a timestamp to each file name in the format `day-month-year-hour-minute-second`, creating a versioned backup file.
+
+##### 6. **Completion Message and Directory Listing**
+   ```bash
+   echo
+   echo -e "\e[0;33mBackup Complete. Checking folder /tmp/Backup .\e[0m"
+   cd /tmp/Backup
+   ls -la
+   cd /mnt/dsacademy
+   echo
+   echo -e "\e[0;33mThanks.\e[0m"
+   ```
+   - After the loop, the script informs the user that the backup process is complete.
+   - The `cd /tmp/Backup` command changes the current directory to the backup directory.
+   - `ls -la` lists all files in the backup directory with detailed information (permissions, owner, size, etc.).
+   - The script then navigates back to the source directory (`cd /mnt/dsacademy`).
+   - Finally, the script prints a thank you message in yellow text.
+
+##### **Summary**
+This script is a simple yet effective way to back up scripts with versioning. Each file in the `/mnt/dsacademy` directory is copied to the `/tmp/Backup` directory with a timestamp appended to its name, ensuring that previous versions are preserved. The script includes user-friendly messages and changes the text color to make the output more noticeable.
+
+
+![image](https://github.com/user-attachments/assets/6adab4fd-5622-4ac1-95b0-7a46cb83468a)
+
+
+
