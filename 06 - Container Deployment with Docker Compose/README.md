@@ -2,6 +2,12 @@
 
 Welcome to my Docker Compose studies repository! This repository documents my learning journey and hands-on experience with deploying containers using Docker Compose. Below is an overview of the topics and deployments covered.
 
+In the last studies ([5: Python Application Deployment with Linux and Docker](https://github.com/Caio-Felice-Cunha/Linux-Operating-System-Docker-and-Kubernetes/tree/main/05%20-%20Deploying%20Python%20Applications%20with%20Linux%20and%20Docker)), we explored how to use Dockerfile to build a custom image and deploy a single container. However, when it comes to deploying multiple containers as part of a single system, Docker Compose is the tool of choice. This section focuses on this tool and is divided into two parts:
+
+- **Deploy 1**: Stack for Deploying a Web App with Python and Redis.
+- **Deploy 2**: Stack for Deploying a Web App, API, and Database.
+
+
 ## Here is what you are going to learn
 
 1. Deploying Containers with Docker Compose: This section covers the basics of deploying containers using Docker Compose. You'll learn how Docker Compose simplifies multi-container deployments and how it fits into modern development workflows;
