@@ -1,4 +1,4 @@
-# Networking with Docker and Linux
+# 03: Networking with Docker and Linux
 
 ## What exactly is a Network Environment?
 A network environment refers to the setup and configuration of network resources, protocols, and topologies that enable communication between devices. It involves the management of network interfaces, IP addresses, routing, and services. In the context of Docker and Linux, it encompasses the virtual network infrastructure that containers use to communicate with each other and the outside world.
