@@ -1,4 +1,4 @@
-# Bash Scripting for Linux Automation
+# 04: Bash Scripting for Linux Automation
 
 Welcome to my GitHub repository dedicated to my studies on automating tasks in Linux using Bash scripts. This repository is a collection of resources, tutorials, and hands-on examples that cover various aspects of Bash scripting, with a focus on automating repetitive tasks efficiently.
 
