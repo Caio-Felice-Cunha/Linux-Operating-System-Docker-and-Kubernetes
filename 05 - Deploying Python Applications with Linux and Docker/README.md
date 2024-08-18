@@ -1,4 +1,4 @@
-# Lesson 5: Deploying a Python Application with Linux and Docker
+# 05: Deploying a Python Application with Linux and Docker
 
 In this lesson, we will learn how to deploy a Python application using Linux and Docker. This involves several steps that ensure our application is packaged, tested, and ready for deployment in a containerized environment.
 
