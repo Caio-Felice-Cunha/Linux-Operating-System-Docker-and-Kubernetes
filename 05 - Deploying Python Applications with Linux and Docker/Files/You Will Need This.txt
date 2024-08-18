@@ -1,0 +1,25 @@
+# Lab 5 - Python Application Deployment with Linux and Docker
+
+# Note: You must have Anaconda Python installed locally
+
+# JSON file source: https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/JSON
+
+
+# Part 1 - Testing the app locally
+
+pip install flask
+
+pip freeze > requirements.txt 
+
+flask run --host 0.0.0.0 --port 3000 
+
+
+# Part 2 - Deploying the app in Docker
+
+docker build -t pythonapp-image:v1 .
+
+docker run -dit --name MyPythonApp -p 3000:3000 pythonapp-image:v1
+
+docker ps
+
+

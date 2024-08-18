@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>MyPythonApp</h2>
+
+<p id="AppPython"></p>
+
+<script>
+
+ var jsonfile = {{ jsonfile|tojson }};
+
+ var obj = JSON.parse(jsonfile);;
+
+document.getElementById("AppPython").innerHTML = obj;
+
+</script>
+
+</body>
+</html>
