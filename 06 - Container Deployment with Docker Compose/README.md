@@ -1,6 +1,22 @@
-# Creating the folder 06 - Container Deployment with Docker Compose
+# 06 - Container Deployment with Docker Compose
 
+Welcome to my Docker Compose studies repository! This repository documents my learning journey and hands-on experience with deploying containers using Docker Compose. Below is an overview of the topics and deployments covered.
 
+## Here is what you are going to learn
+
+1. Deploying Containers with Docker Compose: This section covers the basics of deploying containers using Docker Compose. You'll learn how Docker Compose simplifies multi-container deployments and how it fits into modern development workflows;
+2. When to Use Docker Compose? Here, I discuss scenarios where Docker Compose is particularly useful, such as when managing complex applications that require multiple services working together.;
+3. Deploy 1: Stack for Deploying Web Apps with Python and Redis;
+4. Defining Individual Containers: In this section, I explain how to define individual containers for a Python web application and a Redis database;
+5. Creating Individual Containers: Learn how to create and configure individual containers for each service using Dockerfiles;
+6. Creating the YAML File and Deploying: This section guides you through creating a YAML file for Docker Compose to define the services and how to deploy them;
+7. Deploying and Persisting Data: Here, I cover techniques for persisting data between container restarts, ensuring data is not lost;
+8. Deploy 2: Stack for Deploying Web Apps, APIs and Databases;
+9. Defining Stack Containers: In this section, I explore how to define containers for a more complex stack involving web apps, APIs, and databases;
+10. Creating the Stack Container with NGINX: Learn how to create and configure a container for the NGINX web server;
+11. Creating the Stack Container with NODE.JS: This section covers the steps to create and configure a container for a Node.js application;
+12. Configuring the YAML File: Here, I guide you through the process of configuring the YAML file for the stack, ensuring all services work together seamlessly;
+13. Deploying and Testing the API: Finally, I demonstrate how to deploy the stack and test the API to ensure everything is functioning correctly;
 
 
 # This Series:
