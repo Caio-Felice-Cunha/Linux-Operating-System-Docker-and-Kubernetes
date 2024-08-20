@@ -38,7 +38,11 @@ We are going to deploy two containers with a single command using Docker Compose
 - **Container 1**: Runs a Python application using the Flask web framework.
 - **Container 2**: Runs Redis, an in-memory data store.
 
-Redis is a fully open-source key-value storage system that operates as a data server. You can find the official Redis image on Docker Hub: [Redis on Docker Hub](https://hub.docker.com/_/redis). Additionally, here’s the official Redis website: [Redis Official Site](https://redis.io/).
+Redis is a fully open-source key-value storage system that operates as a data server. 
+
+You can find the official Redis image on Docker Hub: [Redis on Docker Hub](https://hub.docker.com/_/redis). 
+
+Additionally, here’s the official Redis website: [Redis Official Site](https://redis.io/).
 
 Redis provides in-memory data structures and specific operators to manage data in real-time at scale and speed. Originally designed as a cache database, Redis has since evolved into a primary database. Many modern applications now use Redis as their primary database due to its performance. However, most Redis service providers support Redis as a cache, not as a primary database.
 
