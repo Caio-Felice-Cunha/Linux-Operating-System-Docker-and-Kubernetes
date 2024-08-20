@@ -339,13 +339,152 @@ Access the app `localhost:8000`
 
 `docker compose up -d` if you want to run in the background
 
+## CI/CD
 
+Now, let's say you need to make changes to your application. What now?
 
+Go to the file "app.py" and change the text "Success! This page has been accessed" to anything you want, and go back to the app to see if something changed.
 
+In this case, if you did the same as above, you will have to stop your application and remap everything again from scratch.
 
+Now, imagine that every time you want to update, you will have to do this. It would be a huge headache.
 
+However, we have a solution for you, because Docker allows CI/CD
 
+**CI/CD** stands for **Continuous Integration** and **Continuous Deployment/Continuous Delivery**. It's a set of practices used in software development to automate the process of integrating code changes, testing, and deploying applications, leading to more efficient and reliable software delivery.
 
+### 1. **Continuous Integration (CI)**
+   - **What is CI?**
+     - Continuous Integration is a practice where developers frequently integrate their code changes into a shared repository, typically multiple times a day. Each integration is automatically verified by building the application and running a series of tests to detect integration errors as quickly as possible.
+
+   - **Key Components of CI:**
+     - **Automated Builds**: Every time a developer commits code to the repository, the CI system automatically builds the software. This ensures that the new code is compatible with the existing codebase.
+     - **Automated Testing**: After building the application, automated tests (unit tests, integration tests, etc.) are run to ensure that the new changes do not break existing functionality.
+     - **Early Detection of Issues**: By integrating frequently and running automated tests, issues can be detected early, making them easier and less costly to fix.
+
+   - **Benefits of CI:**
+     - Early detection of bugs and integration issues.
+     - Faster feedback on code quality.
+     - Encourages frequent code commits and collaboration.
+
+### 2. **Continuous Deployment (CD)**
+   - **What is CD?**
+     - Continuous Deployment is an extension of Continuous Integration. It refers to automatically deploying every change that passes the CI process to production, without any manual intervention. The goal is to ensure that the code in the main branch is always in a deployable state and that updates can be released to users quickly and reliably.
+
+   - **Key Components of Continuous Deployment:**
+     - **Automated Deployment**: The system automatically deploys the application to production or other environments after it passes the CI pipeline.
+     - **Monitoring**: Once the application is deployed, continuous monitoring is essential to detect any issues in the live environment.
+     - **Rollback Mechanisms**: In case of deployment failures, automated rollback mechanisms are often put in place to revert to the last stable version.
+
+   - **Benefits of Continuous Deployment:**
+     - Faster release cycles and quicker delivery of features and fixes.
+     - Reduces the risk of deployment errors due to automation.
+     - Provides immediate feedback from production, enabling rapid iteration and improvement.
+
+### 3. **Continuous Delivery (CD)**
+   - **What is CD?**
+     - Continuous Delivery is similar to Continuous Deployment but with a key difference: in Continuous Delivery, the deployment to production is not automated. Instead, the application is automatically deployed to a staging environment, where it is ready for manual approval before being released to production. This approach is often used when organizations require additional manual checks or approvals before releasing software.
+
+   - **Key Components of Continuous Delivery:**
+     - **Automated Testing and Deployment to Staging**: The application is built, tested, and deployed to a staging environment automatically.
+     - **Manual Approval**: After deployment to staging, a manual step is required to review and approve the release to production.
+     - **Deployment Pipelines**: Tools like Jenkins, GitLab CI, or CircleCI are used to create and manage deployment pipelines.
+
+   - **Benefits of Continuous Delivery:**
+     - Reduces the risk of issues in production by allowing for manual review.
+     - Ensures that the software is always in a release-ready state.
+     - Provides a balance between automation and control.
+
+### CI/CD Pipeline
+
+A **CI/CD pipeline** is a series of steps that code changes go through to move from development to production. The pipeline typically includes:
+- **Source Control Integration**: Code is pulled from a version control system like Git.
+- **Build Stage**: The application is compiled, and dependencies are installed.
+- **Testing Stage**: Automated tests are run to validate the code.
+- **Deployment Stage**: The application is deployed to staging or production environments.
+- **Monitoring**: Once deployed, the application is monitored for performance, errors, and user feedback.
+
+### Summary
+
+**CI/CD** aims to increase development efficiency and improve software quality by automating the integration, testing, and deployment processes. CI focuses on integrating code frequently with automated testing, while CD extends this by automating the deployment process, either to staging (Continuous Delivery) or directly to production (Continuous Deployment).
+
+## Let's CI/CD THIS!
+First, stop everything and delete all of your containers that were created for this lab. Also, delete the images and volumes. You must start form the beginning.
+
+![image](https://github.com/user-attachments/assets/cb76d935-b2b3-4389-8c5c-edd296f6a013)
+
+First, change the name of the file "docker-compose.yml" to "docker-compose.yml_v1".
+
+Now, the "docker-compose.yml_v2" to "docker-compose.yml".
+
+![image](https://github.com/user-attachments/assets/2fe042db-6021-46bc-950a-6c2c364e3d5e)
+
+Go back to your command prompt line and run the command `docker compose up`
+
+```bash
+version: "3.9"
+
+services:
+
+  web:
+    build: .
+    ports:
+      - "8000:5000"
+    volumes:
+      - .:/code
+    environment:
+      FLASK_DEBUG: True
+
+  redis:
+    image: "redis:alpine"
+```
+
+This `docker-compose.yml` file defines a multi-container Docker application that consists of a web service and a Redis service. The file uses version 3.9 of the Docker Compose syntax and provides configurations for building, running, and managing these services.
+
+### Breakdown of the Code
+
+1. **`version: "3.9"`**
+    - This specifies the version of the Docker Compose file format being used. Version 3.9 is a recent version that supports a variety of features for managing multi-container applications.
+2. **`services:`**
+    - This section defines the individual services (containers) that make up the application. In this case, there are two services: `web` and `redis`.
+
+### Web Service
+
+1. **`web:`**
+    - This section defines the configuration for the `web` service, which likely hosts a web application.
+    - **`build: .`**
+        - This tells Docker Compose to build the Docker image for the `web` service using the Dockerfile located in the current directory (`.`). The Dockerfile contains instructions on how to set up the environment for the web service, including installing dependencies and copying application files.
+    - **`ports:`**
+        - This maps network ports between the host machine and the container.
+        - **`"8000:5000"`**:
+            - This line maps port 8000 on the host machine to port 5000 in the `web` container. This means that when you access `http://localhost:8000` on your host machine, the request is forwarded to port 5000 inside the container, where the web application is running.
+    - **`volumes:`**
+        - Volumes are used to share files and directories between the host machine and the container.
+        - **`.:/code`**:
+            - This line maps the current directory (`.`) on the host machine to the `/code` directory in the container. This allows for live code changes on the host to be reflected immediately inside the container. This is especially useful during development, as it enables real-time updates without needing to rebuild the container every time a change is made.
+    - **`environment:`**
+        - This section allows you to set environment variables within the container.
+        - **`FLASK_DEBUG: True`**:
+            - This sets the `FLASK_DEBUG` environment variable to `True`, enabling Flask's debug mode. When debug mode is enabled, Flask provides detailed error messages and automatically reloads the application when code changes are detected. This is very useful during development.
+
+### Redis Service
+
+1. **`redis:`**
+    - This section defines the configuration for the `redis` service, which provides a Redis database that the web application can use for caching, session management, or other purposes.
+    - **`image: "redis:alpine"`**
+        - This specifies that the `redis` service should be built from the `redis:alpine` Docker image. `redis:alpine` is a lightweight version of the Redis image, based on the Alpine Linux distribution. It's a popular choice for environments where minimizing the size of the image is important.
+
+### Summary
+
+This `docker-compose.yml` file describes a simple development environment with two services:
+
+- **`web`**: This service builds a Docker container from a Dockerfile in the current directory. It exposes the web application on port 8000, mounts the current directory into the container to allow for live updates during development, and enables Flask's debug mode.
+- **`redis`**: This service uses a lightweight Redis image based on Alpine Linux, providing an in-memory data store that the `web` service can use.
+
+The setup is ideal for developing a Flask web application that relies on Redis, allowing for efficient development with real-time code updates and an integrated debug mode.
+
+### NOW YOU CAN GO TO THE APP.PY AND CHANGE THE MESSAGE. YOUR APP WILL UPDATE IN REAL TIME.
+### THIS IS CI/CD IN PRACTICE!
 
 
 
