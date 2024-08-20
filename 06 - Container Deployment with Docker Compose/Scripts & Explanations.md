@@ -486,8 +486,344 @@ The setup is ideal for developing a Flask web application that relies on Redis, 
 ### NOW YOU CAN GO TO THE APP.PY AND CHANGE THE MESSAGE. YOUR APP WILL UPDATE IN REAL TIME.
 ### THIS IS CI/CD IN PRACTICE!
 
-
-
-
-
 # Deploy 02: Stack for Deploying Web App, API and Database
+
+We will deploy 3 containers with a single command, using Docker Compose, and thus deploy a web application with a database API. These will be the 3 containers:
+
+- Container 1 – Runs the Web App in HTML;
+- Container 2 – Runs the API with Node.JS;
+- Container 2 – Runs the database with PostgreSQL.
+
+The Web App is what we call the Front-end, what the user accesses and interacts with. The database is what we call the Back-end, where the company's data and business intelligence are stored.
+
+The API is also considered Back-end, but it is responsible for the connection between the Front-end and Back-end (Back-end can be an application, a database or both).
+
+Our app will not have a user interface because our focus here is not on page design but on the process of deploying and orchestrating containers with Docker Compose.
+
+Let's get to work.
+
+We will use a Postgres Docker image as our database.
+
+In addition, I want to run a web application. To achieve this, we'll use Nginx as our base image to serve as the web server. However, I plan to customize it using a Dockerfile to better suit our needs.
+
+Next, we'll need to connect the front-end (Nginx) with the back-end (Postgres) using Node.js.
+
+docker-compose.yml
+
+```bash
+version: '3'
+
+services:
+
+  dsa_database:
+    container_name: my_database
+    hostname: my_database
+    image: postgres
+    volumes:
+      - ./volume:/var/lib/postgresql
+    environment:
+      - POSTGRES_DB=mydb
+      - POSTGRES_USER=justme
+      - POSTGRES_PASSWORD=mypasswordhere
+    ports:
+      - 54321:5432
+    restart: unless-stopped
+    healthcheck:
+      test: "exit 0"
+
+  dsa_api:
+    container_name: my_api
+    hostname: my_api
+    build:
+      context: ./my_api
+      dockerfile: Dockerfile
+    ports:
+     - 54322:5000
+    volumes:
+      - ./my_api/src/:/usr/src/app/
+      - /usr/src/app/node_modules
+    restart: unless-stopped
+    environment:
+      NODE_ENV: ${MY_ENVIRONMENT}
+    depends_on:
+      - my_database
+
+  my_webserver:
+      container_name: my_webserver
+      hostname: my_webserver
+      build:
+          context: ./my_webserver
+          dockerfile: Dockerfile
+      ports:
+        - 80:80
+      volumes:
+        - ./my_webserver/src/test:/usr/share/nginx/html
+      restart: always
+      depends_on:
+        - my_database
+```
+
+This code is a `docker-compose.yml` file that defines a multi-container application using Docker Compose. The file specifies the services that will be part of the application, including their configurations, environments, ports, and dependencies. Here's a detailed explanation of each section:
+
+### `version: '3'`
+
+This specifies the version of the Docker Compose file format. Version 3 is commonly used and supports a wide range of Docker Compose features.
+
+### `services:`
+
+This section defines the individual services that make up the application. Each service is a containerized component with its own configuration.
+
+---
+
+### Service 1: `dsa_database`
+
+This service represents the database part of the application using a Postgres container.
+
+- **`container_name: my_database`**
+    
+    Sets the name of the container as `my_database`.
+    
+- **`hostname: my_database`**
+    
+    Sets the hostname inside the Docker network to `my_database`.
+    
+- **`image: postgres`**
+    
+    Specifies that the Postgres Docker image will be used to create this container.
+    
+- **`volumes:`**
+    - **`./volume:/var/lib/postgresql`**
+    Maps the local directory `./volume` to the container's directory `/var/lib/postgresql`. This allows persistent storage of database data on the host machine.
+- **`environment:`**
+    - **`POSTGRES_DB=mydb`**
+    Creates a database named `mydb` when the Postgres container starts.
+    - **`POSTGRES_USER=justme`**
+    Sets the username for accessing the Postgres database.
+    - **`POSTGRES_PASSWORD=mypasswordhere`**
+    Sets the password for the Postgres user `justme`.
+- **`ports:`**
+    - **`54321:5432`**
+    Maps port 54321 on the host machine to port 5432 in the container, allowing external access to the Postgres database.
+- **`restart: unless-stopped`**
+    
+    Configures the container to automatically restart unless it is explicitly stopped by the user.
+    
+- **`healthcheck:`**
+    - **`test: "exit 0"`**
+    A health check that always returns a success status. In a real scenario, this would be a command that tests the actual health of the database.
+
+---
+
+### Service 2: `dsa_api`
+
+This service represents the API layer of the application, likely built with Node.js.
+
+- **`container_name: my_api`**
+    
+    Sets the container name to `my_api`.
+    
+- **`hostname: my_api`**
+    
+    Sets the hostname inside the Docker network to `my_api`.
+    
+- **`build:`**
+    - **`context: ./my_api`**
+    Specifies the build context directory for the Dockerfile. This means the Dockerfile for this service is located in the `./my_api` directory.
+    - **`dockerfile: Dockerfile`**
+    Specifies the name of the Dockerfile to use for building the image.
+- **`ports:`**
+    - **`54322:5000`**
+    Maps port 54322 on the host machine to port 5000 in the container, where the API is likely running.
+- **`volumes:`**
+    - **`./my_api/src/:/usr/src/app/`**
+    Maps the local `./my_api/src/` directory to the container's `/usr/src/app/` directory. This allows live code changes in the host to be reflected in the container.
+    - **`/usr/src/app/node_modules`**
+    This is an anonymous volume that stores `node_modules` separately to avoid overwriting it with the host directory.
+- **`restart: unless-stopped`**
+    
+    Configures the container to automatically restart unless it is explicitly stopped.
+    
+- **`environment:`**
+    - **`NODE_ENV: ${MY_ENVIRONMENT}`**
+    Sets the Node.js environment variable `NODE_ENV` using the value from the environment variable `MY_ENVIRONMENT` on the host machine.
+- **`depends_on:`**
+    - **`my_database`**
+    Ensures that the `my_database` service starts before this API service.
+
+---
+
+### Service 3: `my_webserver`
+
+This service represents the web server, likely serving static files and acting as a reverse proxy.
+
+- **`container_name: my_webserver`**
+    
+    Sets the container name to `my_webserver`.
+    
+- **`hostname: my_webserver`**
+    
+    Sets the hostname inside the Docker network to `my_webserver`.
+    
+- **`build:`**
+    - **`context: ./my_webserver`**
+    Specifies the build context directory for the Dockerfile. This means the Dockerfile for this service is located in the `./my_webserver` directory.
+    - **`dockerfile: Dockerfile`**
+    Specifies the name of the Dockerfile to use for building the image.
+- **`ports:`**
+    - **`80:80`**
+    Maps port 80 on the host machine to port 80 in the container, which is typically used for web traffic.
+- **`volumes:`**
+    - **`./my_webserver/src/test:/usr/share/nginx/html`**
+    Maps the local directory `./my_webserver/src/test` to the container's `/usr/share/nginx/html` directory. This allows static files to be served by Nginx.
+- **`restart: always`**
+    
+    Configures the container to always restart if it stops or fails.
+    
+- **`depends_on:`**
+    - **`my_database`**
+    Ensures that the `my_database` service starts before this web server service.
+
+---
+
+### Summary
+
+This `docker-compose.yml` file defines a complete multi-service application consisting of a Postgres database (`dsa_database`), an API service (`dsa_api`), and a web server (`my_webserver`). Each service is configured to interact with others via Docker networks, with specific environment variables, volumes for data persistence, and ports for external access. The file ensures that the services are started in the correct order and remain running unless manually stopped.
+
+Let’s see the my_webserver folder.
+
+## Dockerfile
+
+```bash
+# Base image
+FROM nginx:1.23-alpine
+
+# Remove the default web server configuration file
+RUN rm /etc/nginx/conf.d/*
+
+# Copy the file with our settings
+COPY ./conf/nginx.conf /etc/nginx/conf.d/
+```
+
+This Dockerfile is used to create a custom Docker image for an Nginx web server. Here's a detailed explanation of each line:
+
+### 1. `FROM nginx:1.23-alpine`
+
+- **Purpose**: Specifies the base image for the Docker image you are creating.
+- **Details**:
+    - `nginx:1.23-alpine` refers to the Nginx web server version 1.23, using the `alpine` variant. The `alpine` variant is a minimal, lightweight version of the image, which is popular for its small size and efficiency. Starting with this base image means you have a fully functional Nginx web server as a foundation.
+
+### 2. `RUN rm /etc/nginx/conf.d/*`
+
+- **Purpose**: Removes the default Nginx configuration files.
+- **Details**:
+    - The `RUN` command is used to execute commands in the Docker container during the image build process.
+    - `rm /etc/nginx/conf.d/*` removes all files in the `/etc/nginx/conf.d/` directory, which is where Nginx stores its configuration files for virtual hosts. By removing these files, you ensure that the default configuration is cleared out, allowing you to replace it with your custom configuration.
+
+### 3. `COPY ./conf/nginx.conf /etc/nginx/conf.d/`
+
+- **Purpose**: Copies your custom Nginx configuration file into the container.
+- **Details**:
+    - The `COPY` command copies files or directories from your local file system (on your development machine) into the Docker image.
+    - `./conf/nginx.conf` refers to a custom Nginx configuration file located in the `conf` directory relative to the location of the Dockerfile on your local machine.
+    - `/etc/nginx/conf.d/` is the directory in the container where Nginx looks for configuration files. By copying your `nginx.conf` file here, you're replacing the default configuration with your custom settings.
+
+### Summary
+
+This Dockerfile creates a custom Nginx image by:
+
+1. Using the lightweight Nginx `alpine` image as a base.
+2. Removing any default Nginx configuration to avoid conflicts.
+3. Replacing the default configuration with a custom Nginx configuration file from your local system.
+
+This setup allows you to define how the Nginx server should behave, such as routing, serving static files, handling proxies, etc., according to your specific needs.
+
+Now, inside the conf folder
+
+## nginx.conf
+
+```bash
+server { 
+  listen 80;
+  server_name frontend;
+
+  location / {
+    root /usr/share/nginx/html;
+    try_files $uri /index.html;
+  }
+ 
+  location /api/ {
+    proxy_set_header        X-Real-IP       $remote_addr;
+    proxy_set_header        Access-Control-Allow-Origin   *;
+
+    proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header        X-NginX-Proxy   true;
+    proxy_pass              http://my_api:5000/;
+    proxy_ssl_session_reuse off;
+    proxy_set_header        Host            $http_host;
+    proxy_cache_bypass      $http_upgrade;
+    proxy_redirect          off;
+  }
+}
+```
+
+This `nginx.conf` file is an Nginx server configuration that defines how the server should handle incoming requests. Let's break down each part:
+
+### `server { ... }`
+
+- **Purpose**: This block defines a server configuration. It contains all the settings for handling incoming HTTP requests for a specific domain or IP address.
+
+### `listen 80;`
+
+- **Purpose**: Instructs Nginx to listen for incoming connections on port 80, which is the default port for HTTP traffic.
+
+### `server_name frontend;`
+
+- **Purpose**: Defines the server name or domain name that this configuration will respond to. In this case, `frontend` is used as the server name. This could be a domain like `example.com`, but here it's just a placeholder.
+
+### `location / { ... }`
+
+- **Purpose**: This block defines the behavior for requests to the root path (`/`).
+
+### Inside `location / { ... }`:
+
+- **`root /usr/share/nginx/html;`**
+    - **Purpose**: Specifies the root directory for serving static files. In this case, it points to `/usr/share/nginx/html`, which is the standard directory where Nginx serves static content like HTML, CSS, and JavaScript files.
+- **`try_files $uri /index.html;`**
+    - **Purpose**: This directive attempts to serve the requested file (`$uri`) directly. If the file is not found, Nginx will serve `index.html` instead. This is commonly used in single-page applications (SPAs) where all routes are handled by the front-end, and `index.html` should be served for all non-file routes.
+
+### `location /api/ { ... }`
+
+- **Purpose**: This block defines how requests that start with `/api/` should be handled. Typically, these are requests that need to be forwarded to a back-end API service.
+
+### Inside `location /api/ { ... }`:
+
+- **`proxy_set_header X-Real-IP $remote_addr;`**
+    - **Purpose**: Sets the `X-Real-IP` header to the IP address of the client making the request. This allows the backend service to know the original client IP.
+- **`proxy_set_header Access-Control-Allow-Origin *;`**
+    - **Purpose**: Adds a header to the response that allows all origins (``) to access the resources. This is used for handling Cross-Origin Resource Sharing (CORS) requests.
+- **`proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;`**
+    - **Purpose**: Appends the client’s IP address to the `X-Forwarded-For` header. This header is used to pass the original client IP address through a series of proxy servers.
+- **`proxy_set_header X-NginX-Proxy true;`**
+    - **Purpose**: Sets a custom header `X-NginX-Proxy` to `true`. This is often used to indicate that the request is being handled by Nginx as a reverse proxy.
+- **`proxy_pass http://my_api:5000/;`**
+    - **Purpose**: Forwards the request to the back-end service running at `http://my_api:5000/`. `my_api` is the hostname of the backend service (likely defined in Docker Compose), and port 5000 is where the service is listening.
+- **`proxy_ssl_session_reuse off;`**
+    - **Purpose**: Disables SSL session reuse. This can be useful if there are issues with SSL session caching, although it's not commonly needed for most configurations.
+- **`proxy_set_header Host $http_host;`**
+    - **Purpose**: Sets the `Host` header in the request to the value of `$http_host`, which is the original host header from the client request.
+- **`proxy_cache_bypass $http_upgrade;`**
+    - **Purpose**: Ensures that caching is bypassed for WebSocket or other protocol upgrade requests. The `$http_upgrade` variable is typically set when the client requests an upgrade from HTTP to WebSocket.
+- **`proxy_redirect off;`**
+    - **Purpose**: Disables automatic HTTP redirects by Nginx. This ensures that URLs in the response are not modified by Nginx.
+
+### Summary
+
+This `nginx.conf` file configures an Nginx server to:
+
+1. Serve static files from the `/usr/share/nginx/html` directory, with a fallback to `index.html` for any non-file routes, which is ideal for single-page applications.
+2. Proxy API requests that begin with `/api/` to a back-end service running on `http://my_api:5000/`.
+3. Set appropriate headers for client IP forwarding, CORS handling, and other proxy-related tasks to ensure proper communication between the front-end and back-end services.
+
+Just to finish, open the src folder, than text, we have our index.html file. It's a simple file. No need of explanations here.
+
+
