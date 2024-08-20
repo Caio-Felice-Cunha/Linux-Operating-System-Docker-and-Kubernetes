@@ -318,8 +318,26 @@ def hello():
 
 This script is a simple Flask web application that connects to a Redis database to track the number of times the root page (`/`) has been accessed. Each time the page is visited, the `get_hit_count()` function increments a counter in Redis, and the current count is displayed on the page. The application also handles potential Redis connection issues by retrying the connection a few times before raising an exception. This is a typical example of how microservices might interact in a distributed system, with Flask handling the web server duties and Redis serving as a lightweight, fast data store.
 
+## Let's Go
+
+`cd C:/Users/Caio/Downloads/mydeployments/deploy1`
+
+`docker compose up` → THIS COMMAND SHOULD BE RUNNED IN THE SAME FOLDER OF THE YML FILE
+
+![image](https://github.com/user-attachments/assets/0a094a70-aed7-4033-b606-de5a3fca25c2)
+
+Access the app `localhost:8000`
+
+![image](https://github.com/user-attachments/assets/1112de47-5ff0-4f45-a0ff-821ad1a6f0cd)
+
+`ctrl + c` to stop the app
+
+`docker compose down` to delete the containers (compose)
+
+![image](https://github.com/user-attachments/assets/e850cb32-c51d-4810-bda8-ce40c1acc0c4)
 
 
+`docker compose up -d` if you want to run in the background
 
 
 
