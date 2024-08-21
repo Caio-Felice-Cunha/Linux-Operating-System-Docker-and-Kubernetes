@@ -1,4 +1,34 @@
-#Creating the folder
+# Docker Container Orchestration
+
+## Overview
+This repository provides a comprehensive guide on Docker container orchestration. The project demonstrates how to efficiently manage and scale services using Docker, including real-time updates and scaling.
+
+## Contents
+
+1. **Creating the Images**  
+   Step-by-step instructions on building Docker images for the application and services.
+
+2. **Initializing the Orchestration Environment**  
+   Instructions on setting up the Docker orchestration environment.
+
+3. **Creating the Network for the Containers**  
+   Details on creating a dedicated Docker network to allow communication between containers.
+
+4. **Creating the Python Application Service**  
+   Guide to deploying the Python application as a Docker service.
+
+5. **Creating the Database Service with Redis**  
+   Steps to deploy a Redis database service within the Docker environment.
+
+6. **Scaling the Application in Real Time with Container Orchestration**  
+   Explanation on how to scale the application dynamically using Docker's orchestration tools.
+
+7. **Updating the Images in Real Time with Container Orchestration**  
+   Instructions on how to update Docker images and deploy them without downtime.
+
+8. **Managing Services and Containers**  
+   Techniques for managing and monitoring Docker services and containers.
+
 
 # This Series:
 - [1: Linux Terminal in Docker](https://github.com/Caio-Felice-Cunha/Linux-Operating-System-Docker-and-Kubernetes/tree/main/01-Linux-Management-With-Docker)
