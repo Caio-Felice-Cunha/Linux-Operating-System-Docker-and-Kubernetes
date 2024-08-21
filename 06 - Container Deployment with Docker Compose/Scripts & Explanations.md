@@ -826,4 +826,37 @@ This `nginx.conf` file configures an Nginx server to:
 
 Just to finish, open the src folder, than text, we have our index.html file. It's a simple file. No need of explanations here.
 
+# RUNNNNNN
+
+Open the command line (prompt) and go to the folder where the .yml archive is.
+
+`cd C:/Users/Caio/Downloads/mydeployments/deploy2` 
+
+Then
+
+`docker compose up` → run Docker compose
+
+go to your web browser and type `localhost`
+
+If you want to test the database, you can try the pgadmin tool.
+
+To test the api, just type in the search bar of your web browser `localhost:54322/api/test` 
+
+To stop, go to the prompt and press `Ctrl + C` 
+
+To delete everything, `docker compose down` 
+
+Below, some prints for you to understand a little bit more
+
+![image](https://github.com/user-attachments/assets/f57cb8a3-7b92-46ec-9f05-16cca9d395f4)
+
+![image](https://github.com/user-attachments/assets/f6c7fb2c-2bbc-4f1e-ada4-3c5859845bf4)
+
+![image](https://github.com/user-attachments/assets/71658c9a-b093-4fb1-844b-bf8312cdf790)
+
+![image](https://github.com/user-attachments/assets/7b39c597-f159-4273-8a35-fe86d5032368)
+
+![image](https://github.com/user-attachments/assets/639acfd9-5766-482c-8b3c-279a33e15986)
+
+![image](https://github.com/user-attachments/assets/932d3871-bb1b-4711-bac1-d4255bbc82d8)
 
