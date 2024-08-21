@@ -1,0 +1,55 @@
+version: '3'
+
+
+services:
+
+  my_database:
+    container_name: my_database
+    hostname: my_database
+    image: postgres
+    volumes:
+      - ./volume:/var/lib/postgresql
+    environment:
+      - POSTGRES_DB=mydb
+      - POSTGRES_USER=justme
+      - POSTGRES_PASSWORD=mypasswordhere
+    ports:
+      - 54321:5432
+    restart: unless-stopped
+    healthcheck:
+      test: "exit 0"
+
+
+  my_api:
+    container_name: my_api
+    hostname: my_api
+    build:
+      context: ./my_api
+      dockerfile: Dockerfile
+    ports:
+     - 54322:5000
+    volumes:
+      - ./my_api/src/:/usr/src/app/
+      - /usr/src/app/node_modules
+    restart: unless-stopped
+    environment:
+      NODE_ENV: ${MY_ENVIRONMENT}
+    depends_on:
+      - my_database
+
+
+  my_webserver:
+      container_name: my_webserver
+      hostname: my_webserver
+      build:
+          context: ./my_webserver
+          dockerfile: Dockerfile
+      ports:
+        - 80:80
+      volumes:
+        - ./my_webserver/src/test:/usr/share/nginx/html
+      restart: always
+      depends_on:
+        - my_database
+
+        
