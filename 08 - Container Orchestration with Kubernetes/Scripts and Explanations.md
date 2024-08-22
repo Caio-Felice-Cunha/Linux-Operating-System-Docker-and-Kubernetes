@@ -9,7 +9,7 @@
 
 **Container orchestration with Kubernetes simplifies the management of complex applications, allowing development teams to focus on creating high-quality software while the infrastructure is managed efficiently and scalably.**
 
-**In this lab, we will perform container orchestration with Kubernetes. Follow the instructions carefully to deploy a local Docker cluster using Kubernetes. This example will demonstrate how to deploy a simple application with two services on a local Kubernetes cluster using Minikube.**
+**Here, we will perform container orchestration with Kubernetes. Follow the instructions carefully to deploy a local Docker cluster using Kubernetes. This example will demonstrate how to deploy a simple application with two services on a local Kubernetes cluster using Minikube.**
 
 **Prerequisites** (install according to your operating system):
 
