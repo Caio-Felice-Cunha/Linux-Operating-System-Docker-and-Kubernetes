@@ -1,3 +1,4 @@
+# Explaning the files content
 ### File: app.py
 
 ```json
@@ -344,6 +345,7 @@ RUN pip install -r requirements.txt
 
 ```
 
+
 - **RUN pip install -r requirements.txt**: This command installs the Python packages specified in `requirements.txt`. `pip` is the Python package installer.
 
 #### 7. **Expose a Port**
@@ -395,3 +397,133 @@ FROM "redis:alpine"
 flask
 redis
 ```
+
+
+
+
+# Let's go 
+
+## In your command line (prompt), type this commands bellow. You will also find a brief explanations for each command.
+
+
+### 1. **Building Docker Images**
+
+```bash
+docker-compose build
+```
+
+- **Purpose:** This command is used to build the Docker images as specified in the `docker-compose.yml` file. Docker Compose reads the file, pulls the base images, and executes any specified instructions (like installing dependencies, copying files, etc.) to create the final image.
+- **Context:** In this case, you're creating the images for the app you used in [06 - Container Deployment with Docker Compose](https://github.com/Caio-Felice-Cunha/Linux-Operating-System-Docker-and-Kubernetes/tree/main/06%20-%20Container%20Deployment%20with%20Docker%20Compose), which will later be used in the swarm.
+- **Note:** If the images do not appear in Docker Desktop, restarting the application can help refresh the view.
+
+### 2. **Initializing a Docker Swarm**
+
+```bash
+docker swarm init
+```
+
+- **Purpose:** This command initializes a new Docker Swarm, turning the Docker Engine on your current machine into a swarm manager.
+- **Swarm Mode:** Swarm mode is a Docker feature that allows you to manage a cluster of Docker Engines, providing native orchestration and clustering capabilities. A swarm consists of multiple Docker nodes (machines running Docker), with one or more being managers and others being workers.
+- **Cluster Management:** Once the swarm is initialized, your current machine becomes the manager, capable of orchestrating services across multiple worker nodes.
+
+### 3. **Creating a Docker Overlay Network**
+
+```bash
+docker network create --driver overlay orchestration
+```
+
+- **Purpose:** This command creates a new network using Docker's overlay driver. The overlay network allows containers running on different Docker nodes (within the swarm) to communicate with each other securely.
+- **Overlay Network:** An overlay network extends across all nodes in the swarm, enabling communication between containers even if they are running on different physical or virtual machines.
+- **Use Case:** The network named `orchestration` will be used by the services you define, allowing them to communicate seamlessly within the swarm.
+
+### 4. **Creating a Service for the Web Application**
+
+```bash
+docker service create --name mywebapp --network orchestration --replicas 3 -p 8000:5000 orchestration-web:v1
+```
+
+- **Service Creation:** This command creates a new service within the swarm.
+- **Options Breakdown:**
+  - `--name mywebapp`: Names the service "mywebapp."
+  - `--network orchestration`: Connects the service to the `orchestration` network created earlier.
+  - `--replicas 3`: Ensures that three instances (replicas) of this service will be running at all times.
+  - `-p 8000:5000`: Maps port 8000 on the host machine to port 5000 inside the container, making the web application accessible on `http://localhost:8000`.
+  - `orchestration-web:v1`: Specifies the image to be used for the service. This is the first version (`v1`) of the web application image.
+- **Result:** The service ensures that three instances of your web application are running and accessible via port 8000 on the host machine.
+
+### 5. **Creating a Redis Database Service**
+
+```bash
+docker service create --name mydb --network orchestration --replicas 3 orchestration-redis
+```
+
+- **Service Creation:** Similar to the web application service, this command creates a service for the Redis database.
+- **Options Breakdown:**
+  - `--name mydb`: Names the service "mydb."
+  - `--network orchestration`: Connects the service to the `orchestration` network.
+  - `--replicas 3`: Ensures three instances of the Redis service are running.
+  - `orchestration-redis`: Specifies the image to be used for this service (a custom or official Redis image).
+- **Result:** The service guarantees that three instances of the Redis database are always running within the swarm, connected to the same network as the web application.
+
+### 6. **Scaling the Web Application**
+
+```bash
+docker service scale mywebapp=5
+```
+
+- **Purpose:** This command increases the number of replicas (instances) of the `mywebapp` service from 3 to 5.
+- **Dynamic Scaling:** Docker Swarm automatically launches the additional replicas across the swarm, ensuring load balancing and redundancy.
+- **Use Case:** Scaling is often required to handle increased traffic, ensuring that the application can serve more requests simultaneously.
+
+### 7. **Updating the Web Application Image**
+
+```bash
+docker service update --image orchestration-web:v2 mywebapp
+```
+
+- **Purpose:** This command updates the running `mywebapp` service to use a new version of the image, `orchestration-web:v2`.
+- **Rolling Updates:** Docker performs a rolling update, gradually replacing old containers with new ones using the updated image. This process ensures minimal downtime.
+- **Versioning:** The `:v2` denotes that this is the second version of the web application's Docker image.
+- **Use Case:** Updating the application to a new version (e.g., with bug fixes, new features, or performance improvements) without taking the entire service offline.
+
+### 8. **Managing Services and Containers**
+
+Commands to inspect services:
+
+```bash
+docker service ls
+```
+- **Purpose:** Lists all running services within the swarm, showing details such as service names, replica counts, and update status.
+
+```bash
+docker service inspect --pretty mywebapp
+```
+- **Purpose:** Provides detailed information about the `mywebapp` service in a human-readable format.
+
+```bash
+docker service inspect --pretty mydb
+```
+- **Purpose:** Similar to the previous command, but for the `mydb` service.
+
+```bash
+docker service ps mydb
+```
+- **Purpose:** Lists the tasks (individual containers) running for the `mydb` service, showing their status and placement.
+
+```bash
+docker service ps mywebapp
+```
+- **Purpose:** Lists the tasks running for the `mywebapp` service, providing insight into which nodes the containers are running on, their status, and other relevant details.
+
+### 9. **Stopping and Removing Services**
+
+```bash
+docker service rm mywebapp
+docker service rm mydb
+```
+
+- **Purpose:** These commands stop and remove the specified services from the swarm.
+- **Stopping Services:** When you remove a service, Docker Swarm stops all running containers (replicas) of that service and removes them from the swarm.
+- **Cleanup:** This is typically done when the service is no longer needed or when you want to completely shut down a specific component of your application stack.
+
+Each of these commands is crucial in orchestrating Docker containers in a production environment, allowing for scalable, reliable, and manageable deployment of applications and services.
