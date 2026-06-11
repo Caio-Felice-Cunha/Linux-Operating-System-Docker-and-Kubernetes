@@ -8,16 +8,21 @@ services:
     hostname: my_database
     image: postgres
     volumes:
-      - ./volume:/var/lib/postgresql
+      # The postgres image declares VOLUME /var/lib/postgresql/data, so the bind
+      # mount must target that exact path for ./volume to actually persist data.
+      - ./volume:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=mydb
-      - POSTGRES_USER=justme
-      - POSTGRES_PASSWORD=mypasswordhere
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     ports:
       - 54321:5432
     restart: unless-stopped
     healthcheck:
-      test: "exit 0"
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 
   my_api:
@@ -50,6 +55,6 @@ services:
         - ./my_webserver/src/test:/usr/share/nginx/html
       restart: always
       depends_on:
-        - my_database
+        - my_api
 
         

@@ -28,11 +28,7 @@ def hello():
     # Get the count
     mycounter = get_hit_count()
 
-    # Check the counter
-    if mycounter == 1:
-        counting = 'Success! This page has been accessed {} times.\n'.format(mycounter)
-    else:
-        counting = 'Success! This page has been accessed {} times.\n'.format(mycounter)
+    counting = 'Success! This page has been accessed {} times.\n'.format(mycounter)
 
     return counting
 

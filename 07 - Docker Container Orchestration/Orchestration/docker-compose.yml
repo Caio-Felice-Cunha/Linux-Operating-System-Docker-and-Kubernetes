@@ -8,7 +8,10 @@ services:
       dockerfile: Dockerfile.app
     image: orchestration-web:v1
 
-  redis:
+  # Named "mydb" so the in-container hostname matches app.py's
+  # redis.Redis(host='mydb', ...). This mirrors the Swarm flow, which creates
+  # the Redis service with `docker service create --name mydb ...`.
+  mydb:
     build:
       context: .
       dockerfile: Dockerfile.db

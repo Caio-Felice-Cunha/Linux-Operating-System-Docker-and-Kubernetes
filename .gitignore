@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Node
+node_modules/
+
+# Docker Compose lab artifacts (created at runtime by the deploy stacks)
+volume/
+**/volume/
+
+# Local environment files (use the committed .env.example as a template)
+.env
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
