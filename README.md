@@ -2,7 +2,7 @@
 
 Welcome to the **Linux-Operating-System-Docker-and-Kubernetes** repository! 
 
-This repository contains all my study materials and lab exercises from the course [Preparação para Carreira de Cientista de Dados](https://www.datascienceacademy.com.br/course/preparao-para-carreira-de-cientista-de-dados) provided by Data Science Academy.
+This repository contains all my study materials and lab exercises from the "Preparação para Carreira de Cientista de Dados" track provided by [Data Science Academy](https://www.datascienceacademy.com.br/).
 
 ## Table of Contents
 

@@ -484,7 +484,9 @@ This `docker-compose.yml` file describes a simple development environment with t
 The setup is ideal for developing a Flask web application that relies on Redis, allowing for efficient development with real-time code updates and an integrated debug mode.
 
 ### NOW YOU CAN GO TO THE APP.PY AND CHANGE THE MESSAGE. YOUR APP WILL UPDATE IN REAL TIME.
-### THIS IS CI/CD IN PRACTICE!
+### THIS IS LIVE RELOAD DURING DEVELOPMENT.
+
+> Note: this is the bind-mount plus auto-reload pattern, which speeds up local development. It is not CI/CD. A real CI/CD pipeline runs automated build, test, and deploy steps on a server when you push code; here the container just picks up file changes from the mounted folder.
 
 # Deploy 02: Stack for Deploying Web App, API and Database
 
@@ -515,23 +517,26 @@ version: '3'
 
 services:
 
-  dsa_database:
+  my_database:
     container_name: my_database
     hostname: my_database
     image: postgres
     volumes:
-      - ./volume:/var/lib/postgresql
+      - ./volume:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=mydb
-      - POSTGRES_USER=justme
-      - POSTGRES_PASSWORD=mypasswordhere
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     ports:
       - 54321:5432
     restart: unless-stopped
     healthcheck:
-      test: "exit 0"
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-  dsa_api:
+  my_api:
     container_name: my_api
     hostname: my_api
     build:
@@ -560,8 +565,10 @@ services:
         - ./my_webserver/src/test:/usr/share/nginx/html
       restart: always
       depends_on:
-        - my_database
+        - my_api
 ```
+
+> The service keys here match the committed `docker-compose.yml` (`my_database`, `my_api`). Credentials and `MY_ENVIRONMENT` come from a local `.env` file (see `.env.example`), so nothing secret is committed. The API in this lab is a stub that returns a fixed JSON response; it does not query Postgres (the `pg`/`sequelize`/`tedious` packages in package.json are unused), so the database is here only to demonstrate the multi-service stack and data persistence.
 
 This code is a `docker-compose.yml` file that defines a multi-container application using Docker Compose. The file specifies the services that will be part of the application, including their configurations, environments, ports, and dependencies. Here's a detailed explanation of each section:
 
@@ -575,7 +582,7 @@ This section defines the individual services that make up the application. Each 
 
 ---
 
-### Service 1: `dsa_database`
+### Service 1: `my_database`
 
 This service represents the database part of the application using a Postgres container.
 
@@ -614,7 +621,7 @@ This service represents the database part of the application using a Postgres co
 
 ---
 
-### Service 2: `dsa_api`
+### Service 2: `my_api`
 
 This service represents the API layer of the application, likely built with Node.js.
 
@@ -680,14 +687,14 @@ This service represents the web server, likely serving static files and acting a
     Configures the container to always restart if it stops or fails.
     
 - **`depends_on:`**
-    - **`my_database`**
-    Ensures that the `my_database` service starts before this web server service.
+    - **`my_api`**
+    Ensures that the `my_api` service starts before this web server service (the web server fronts the API, so it should come up after it).
 
 ---
 
 ### Summary
 
-This `docker-compose.yml` file defines a complete multi-service application consisting of a Postgres database (`dsa_database`), an API service (`dsa_api`), and a web server (`my_webserver`). Each service is configured to interact with others via Docker networks, with specific environment variables, volumes for data persistence, and ports for external access. The file ensures that the services are started in the correct order and remain running unless manually stopped.
+This `docker-compose.yml` file defines a complete multi-service application consisting of a Postgres database (`my_database`), an API service (`my_api`), and a web server (`my_webserver`). Each service is configured to interact with others via Docker networks, with specific environment variables, volumes for data persistence, and ports for external access. The file ensures that the services are started in the correct order and remain running unless manually stopped.
 
 Let’s see the my_webserver folder.
 

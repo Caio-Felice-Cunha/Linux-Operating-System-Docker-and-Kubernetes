@@ -32,11 +32,7 @@ def hello():
     # Get the count
     mycounter = get_hit_count()
 
-    # Check the counter
-    if mycounter == 1:
-        counting = 'Success! This page has been accessed {} times.\n'.format(mycounter)
-    else:
-        counting = 'Success! This page has been accessed {} times.\n'.format(mycounter)
+    counting = 'Success! This page has been accessed {} times.\n'.format(mycounter)
 
     return counting
 ```
@@ -103,10 +99,7 @@ def get_hit_count():
 def hello():
     mycounter = get_hit_count()
 
-    if mycounter == 1:
-        counting = 'Success! This page has been accessed {} times.\\n'.format(mycounter)
-    else:
-        counting = 'Success! This page has been accessed {} times.\\n'.format(mycounter)
+    counting = 'Success! This page has been accessed {} times.\\n'.format(mycounter)
 
     return counting
 
@@ -118,7 +111,9 @@ def hello():
     - **counting = 'Success! This page has been accessed {} times.\n'.format(mycounter)**: A message is created indicating how many times the page has been accessed.
     - **return counting**: The message is returned to the user's browser as a response.
 
-#### 6. **Redundant Conditional**
+#### 6. **Removed: a redundant conditional**
+
+The original lesson code had this block:
 
 ```python
 if mycounter == 1:
@@ -128,7 +123,7 @@ else:
 
 ```
 
-- This block is redundant since both the `if` and `else` branches produce the same output. You can simplify it by removing the `if-else` structure altogether.
+- This block was redundant since both the `if` and `else` branches produced the same output. It has been simplified to a single assignment in the committed `app.py`.
 
 #### Summary
 
@@ -138,7 +133,7 @@ else:
 
 ### File: docker-compose.yml
 
-```json
+```yaml
 version: "3.9"
 
 services:
@@ -147,9 +142,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.app
-    image: Orchestration-web:v1
+    image: orchestration-web:v1
 
-  redis:
+  mydb:
     build:
       context: .
       dockerfile: Dockerfile.db
@@ -160,10 +155,10 @@ services:
       dockerfile: Dockerfile.app
     volumes:
       - .:/code
-    image: Orchestration-web:v2
+    image: orchestration-web:v2
 ```
 
-The `docker-compose.yml` file you provided is used to define and manage multi-container Docker applications. It allows you to define services, networks, and volumes that make up your application in a single YAML file. This specific file sets up a Docker application with three services: `web`, `redis`, and `web2`. Let’s break down each part of this file.
+The `docker-compose.yml` file you provided is used to define and manage multi-container Docker applications. It allows you to define services, networks, and volumes that make up your application in a single YAML file. This specific file sets up a Docker application with three services: `web`, `mydb`, and `web2`. The Redis service is named `mydb` so the in-container hostname matches `app.py`'s `redis.Redis(host='mydb', ...)`. Docker image tags must be lowercase, so the tag is `orchestration-web:v1`, not `Orchestration-web:v1`. Let’s break down each part of this file.
 
 #### 1. **Version**
 
@@ -190,7 +185,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.app
-    image: Orchestration-web:v1
+    image: orchestration-web:v1
 
 ```
 
@@ -198,19 +193,19 @@ services:
     - **build**: This section specifies how the Docker image for this service should be built.
         - **context: .**: The build context is set to the current directory (`.`). This is where Docker will look for the `Dockerfile.app` and any other files it needs to build the image.
         - **dockerfile: Dockerfile.app**: This specifies that Docker should use the `Dockerfile.app` file (located in the build context) to build the image for this service.
-    - **image: Orchestration-web:v1**: Once built, the image will be tagged as `Orchestration-web:v1`. This image can be reused later without rebuilding.
+    - **image: orchestration-web:v1**: Once built, the image will be tagged as `orchestration-web:v1`. This image can be reused later without rebuilding.
 
-#### 4. **Service 2: redis**
+#### 4. **Service 2: mydb**
 
 ```yaml
-  redis:
+  mydb:
     build:
       context: .
       dockerfile: Dockerfile.db
 
 ```
 
-- **redis**: This defines the second service, named `redis`.
+- **mydb**: This defines the second service, named `mydb`. It runs Redis, and the name `mydb` matches the host `app.py` connects to.
     - **build**: Similar to the `web` service, this section specifies how to build the Docker image for this service.
         - **context: .**: The build context is again set to the current directory.
         - **dockerfile: Dockerfile.db**: This specifies that Docker should use the `Dockerfile.db` file (located in the build context) to build the image for this service.
@@ -224,7 +219,7 @@ services:
       dockerfile: Dockerfile.app
     volumes:
       - .:/code
-    image: Orchestration-web:v2
+    image: orchestration-web:v2
 
 ```
 
@@ -234,18 +229,18 @@ services:
         - **dockerfile: Dockerfile.app**: This service also uses the `Dockerfile.app` file to build its image, just like the `web` service. However, it will result in a different image because it's tagged differently.
     - **volumes**:
         - **.-:/code**: This mounts the current directory (`.`) on the host machine to the `/code` directory inside the container. This allows you to share files between the host and the container, which can be useful for development, as changes made to files on the host will be reflected in the container immediately.
-    - **image: Orchestration-web:v2**: Once built, the image will be tagged as `Orchestration-web:v2`.
+    - **image: orchestration-web:v2**: Once built, the image will be tagged as `orchestration-web:v2`.
 
 #### **Summary**
 
-- **web**: This service is built using `Dockerfile.app` and is tagged as `Orchestration-web:v1`.
-- **redis**: This service is built using `Dockerfile.db`, which is likely configured for the Redis server.
-- **web2**: This service is similar to the `web` service but includes a volume mapping to share files between the host and container. It is tagged as `Orchestration-web:v2`.
+- **web**: This service is built using `Dockerfile.app` and is tagged as `orchestration-web:v1`.
+- **mydb**: This service is built using `Dockerfile.db`, which runs the Redis server.
+- **web2**: This service is similar to the `web` service but includes a volume mapping to share files between the host and container. It is tagged as `orchestration-web:v2`.
 
 #### **Use Case**
 
 - **web and web2**: These could represent two different versions or configurations of a web application, allowing you to run them in parallel or compare different setups.
-- **redis**: This is likely the database or cache layer, specifically using Redis, which can be used by both `web` and `web2` services.
+- **mydb**: This is the cache layer, using Redis, which can be used by both `web` and `web2` services.
 
 This setup is useful for running different environments (e.g., testing, staging, production) simultaneously or for easily switching between different versions of an application by simply changing the service name or image tag.
 

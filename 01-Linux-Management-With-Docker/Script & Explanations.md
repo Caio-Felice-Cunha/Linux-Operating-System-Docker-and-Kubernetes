@@ -4,7 +4,7 @@
 
 * `docker pull ubuntu` download ubuntu docker image
 
-* `docker run -d -p --name Linux-Manag-Docker ubuntu` create container. `-d`stands for detached mode to run in the background.
+* `docker run -dt --name Linux-Manag-Docker ubuntu` create container. `-d` stands for detached mode to run in the background, and `-t` allocates a TTY so plain ubuntu keeps running instead of exiting immediately. There is no service to publish here, so no `-p` port mapping is needed.
 
 * `docker ps` view the running containers
 
@@ -14,9 +14,9 @@
 
 * `docker exec -i -t Linux-Manag-Docker /bin/bash` - `exec` is to perform an action with an already created container `i` allows interaction with the container `-t` is to use this terminal `/bin/bash` is to enter the shell
 
-### Github Desktop
+### Docker Desktop
 
-#### Once created, go to Docker Desktop than Containers than 3 dots than Terminal
+#### Once created, go to Docker Desktop, then Containers, then the 3 dots, then Terminal
 
 * `bash` open shell
 
@@ -41,7 +41,7 @@ In the Docker Desktop container shell/command prompt (we will use bash)
     2. Install the `adduser` package:
         
         ```bash
-        apt-get install adduse
+        apt-get install adduser
         ```
         
     3. After installing, you can add the user `caio` using the `adduser` command:

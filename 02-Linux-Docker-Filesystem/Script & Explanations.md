@@ -1,8 +1,8 @@
-# Fisrt Steps
+# First Steps
 
 Let’s create the container using ubuntu
 
-`docker run -dt --name Li**nux-docker-filesystem ubuntu**`
+`docker run -dt --name linux-docker-filesystem ubuntu`
 
 `bash` In the Docker Desktop, open the container terminal, and let’s start using bash
 
@@ -378,7 +378,9 @@ Now, let’s go back to the prompt (command line).
 
 We are going to need a local folder for this part. You can use your Downloads folder or something like that.
 
-`docker run -it --name volumeandpartitions --mount type=bind,source=/C:/Users/Caio/Downloads, target=/vap/volandpart ubuntu`
+`docker run -it --name volumeandpartitions --mount type=bind,source=/C:/Users/Caio/Downloads,target=/vap/volandpart ubuntu`
+
+> Note: the `--mount` value is a single comma-separated string with no spaces. A space after a comma makes Docker read `target=...` as a separate argument and the command fails.
 
 - `run` to execute the container
 - `-it` for initialize the container and opening the shell (if you do not want that you can use `-d`  instead of `-i`)
@@ -386,7 +388,7 @@ We are going to need a local folder for this part. You can use your Downloads fo
     - Now we have to define the sub-parameters
     - `type=bind` to map a local file system to docker
     - `,source=/C:/Users/Caio/Downloads` to map a local file system to docker
-    - `, target=/vap/volandpart` to define where in the Docker system
+    - `,target=/vap/volandpart` to define where in the Docker system
 
 `cd /vap/volandpart` to go to the folder
 
@@ -394,7 +396,7 @@ We are going to need a local folder for this part. You can use your Downloads fo
 
 `touch example1.txt` to create a txt file
 
-`echo "Testing Docker File System in Dokcer" > example1.txt` to insert some text in this file.
+`echo "Testing Docker File System in Docker" > example1.txt` to insert some text in this file.
 
 `exit` to quit container
 
@@ -436,7 +438,9 @@ Let’s continue this example.
 
 Creating a container in this volume
 
-`docker run -it --name=mycontainer --mount source=volume_partitions, destination=vap/myexample ubuntu`
+`docker run -it --name=mycontainer --mount source=volume_partitions,destination=/vap/myexample ubuntu`
+
+> Note: no space after the comma, and the `destination` must be an absolute path (leading `/`). Docker rejects a relative mount target.
 
 `df -Th` to see that now, the container is inside docker, not your computer.
 

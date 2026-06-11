@@ -15,13 +15,13 @@ Are you starting now? Check out this first: [1-Linux-Management-With-Docker](htt
 
 ## Usage Instructions
 
-1. Clone the repository:
+1. Clone the repository and open this folder:
     ```sh
-    git clone https://github.com/Caio-Felice-Cunha/linux-docker-filesystem.git
-    cd linux-docker-filesystem
+    git clone https://github.com/Caio-Felice-Cunha/Linux-Operating-System-Docker-and-Kubernetes.git
+    cd Linux-Operating-System-Docker-and-Kubernetes/02-Linux-Docker-Filesystem
     ```
 
-4. Refer to the documentation in the `Script & Explanations` folder for detailed guides on the file system, partitioning, and volume management.
+2. Refer to the documentation in the `Script & Explanations` folder for detailed guides on the file system, partitioning, and volume management.
 
 ## Contribution
 
@@ -29,7 +29,7 @@ Contributions are welcome! Feel free to open issues or pull requests for improve
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [MIT License](../LICENSE).
 
 # This Series:
 - [1: Linux Terminal in Docker](https://github.com/Caio-Felice-Cunha/Linux-Operating-System-Docker-and-Kubernetes/tree/main/01-Linux-Management-With-Docker)
