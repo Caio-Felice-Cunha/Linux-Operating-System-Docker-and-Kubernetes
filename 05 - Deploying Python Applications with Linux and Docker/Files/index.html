@@ -4,15 +4,22 @@
 
 <h2>MyPythonApp</h2>
 
-<p id="AppPython"></p>
+<div id="AppPython"></div>
 
 <script>
 
- var jsonfile = {{ jsonfile|tojson }};
+ // squad is rendered by Flask's |tojson filter, so it is already a real JS object.
+ var squad = {{ squad|tojson }};
 
- var obj = JSON.parse(jsonfile);;
+ var lines = [];
+ lines.push("<p><strong>" + squad.squadName + "</strong> from " + squad.homeTown + " (formed " + squad.formed + ")</p>");
+ lines.push("<ul>");
+ squad.members.forEach(function (member) {
+   lines.push("<li>" + member.name + " - " + member.secretIdentity + " (age " + member.age + ")</li>");
+ });
+ lines.push("</ul>");
 
-document.getElementById("AppPython").innerHTML = obj;
+ document.getElementById("AppPython").innerHTML = lines.join("");
 
 </script>
 
