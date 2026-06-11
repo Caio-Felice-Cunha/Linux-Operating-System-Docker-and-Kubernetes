@@ -10,14 +10,14 @@ The goal is to go from "run a single Ubuntu container" to "deploy and orchestrat
 
 ## Labs
 
-1. [Linux Terminal in Docker](01-Linux-Management-With-Docker) — users, groups, permissions, files and folders inside a container.
-2. [Directory Structure, File System, Partitions, and Volumes](02-Linux-Docker-Filesystem) — bind mounts and named volumes, host-to-container file sharing.
-3. [Networking with Docker and Linux](03%20-%20Networking%20with%20Docker%20and%20Linux) — container networking basics.
-4. [Automating Tasks with Bash Script](04%20-%20CreatingBash%20Scripts%20for%20Automation) — bash scripts run inside a mounted container.
-5. [Python Application Deployment with Linux and Docker](05%20-%20Deploying%20Python%20Applications%20with%20Linux%20and%20Docker) — a small Flask app packaged in a Docker image.
-6. [Container Deployment with Docker Compose](06%20-%20Container%20Deployment%20with%20Docker%20Compose) — two Compose stacks: a Flask + Redis hit counter (deploy1) and a web + Node API + Postgres stack (deploy2).
-7. [Container Orchestration with Docker](07%20-%20Docker%20Container%20Orchestration) — the same hit counter scaled and updated with Docker Swarm.
-8. [Container Orchestration with Kubernetes](08%20-%20Container%20Orchestration%20with%20Kubernetes) — running the app on Minikube.
+1. [Linux Terminal in Docker](01-Linux-Management-With-Docker): users, groups, permissions, files and folders inside a container.
+2. [Directory Structure, File System, Partitions, and Volumes](02-Linux-Docker-Filesystem): bind mounts and named volumes, host-to-container file sharing.
+3. [Networking with Docker and Linux](03%20-%20Networking%20with%20Docker%20and%20Linux): container networking basics.
+4. [Automating Tasks with Bash Script](04%20-%20CreatingBash%20Scripts%20for%20Automation): bash scripts run inside a mounted container.
+5. [Python Application Deployment with Linux and Docker](05%20-%20Deploying%20Python%20Applications%20with%20Linux%20and%20Docker): a small Flask app packaged in a Docker image.
+6. [Container Deployment with Docker Compose](06%20-%20Container%20Deployment%20with%20Docker%20Compose): two Compose stacks, a Flask + Redis hit counter (deploy1) and a web + Node API + Postgres stack (deploy2).
+7. [Container Orchestration with Docker](07%20-%20Docker%20Container%20Orchestration): the same hit counter scaled and updated with Docker Swarm.
+8. [Container Orchestration with Kubernetes](08%20-%20Container%20Orchestration%20with%20Kubernetes): running the app on Minikube.
 
 ## Run the two app demos
 
